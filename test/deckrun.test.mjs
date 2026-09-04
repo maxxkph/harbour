@@ -54,24 +54,23 @@ Inline math $a^2 + b^2 = c^2$ here.
 
 test("Presentation options resolve correctly", () => {
   assert.equal(findTemplate("minimal"), "minimal");
-  assert.equal(findTemplate("Classic"), "classic");
+  assert.equal(findTemplate("Minimal"), "minimal");
   assert.equal(findTemplate("non-existent"), null);
-  assert.equal(resolveTemplateName("spotlight"), "spotlight");
-  assert.equal(resolveTemplateName("invalid"), "classic");
+  assert.equal(resolveTemplateName("invalid"), "minimal");
 
   assert.equal(findTransition("fade"), "fade");
-  assert.equal(findTransition("Zoom"), "zoom");
+  assert.equal(findTransition("None"), "none");
   assert.equal(findTransition("non-existent"), null);
-  assert.equal(resolveTransitionName("lift"), "lift");
+  assert.equal(resolveTransitionName("none"), "none");
   assert.equal(resolveTransitionName("invalid"), "slide");
 
-  assert.equal(templateSummaries().length, 4);
-  assert.equal(transitionSummaries().length, 5);
-  assert.equal(templateListing().length, 4);
-  assert.equal(transitionListing().length, 5);
+  assert.equal(templateSummaries().length, 1);
+  assert.equal(transitionSummaries().length, 3);
+  assert.equal(templateListing().length, 1);
+  assert.equal(transitionListing().length, 3);
 
-  assert.ok(TEMPLATE_CSS.includes("spotlight"));
-  assert.ok(TRANSITION_CSS.includes("lift"));
+  assert.ok(TEMPLATE_CSS.includes("minimal"));
+  assert.ok(TRANSITION_CSS.includes("fade"));
 });
 
 test("Rich content detection and head tags work", () => {
@@ -158,29 +157,29 @@ test("Generate HTML produces valid complete document with templates and transiti
     slides,
     "My Test Deck",
     false,
-    "nord",
+    "maxx-mellow",
     { head: null, body: null },
-    { template: "editorial", transition: "fade" }
+    { template: "minimal", transition: "fade" }
   );
 
-  assert.ok(html.includes('data-theme="nord"'));
-  assert.ok(html.includes('data-template="editorial"'));
+  assert.ok(html.includes('data-theme="maxx-mellow"'));
+  assert.ok(html.includes('data-template="minimal"'));
   assert.ok(html.includes('data-transition="fade"'));
   assert.ok(html.includes("Test note"));
 });
 
 test("Generate Doc HTML produces valid standalone document wrapper", () => {
-  const docHtml = generateDocHtml("/__remote-doc", "My Remote Doc", false, "tokyo");
-  assert.ok(docHtml.includes('data-theme="tokyo"'));
+  const docHtml = generateDocHtml("/__remote-doc", "My Remote Doc", false, "maxx-mellow-dawn");
+  assert.ok(docHtml.includes('data-theme="maxx-mellow-dawn"'));
   assert.ok(docHtml.includes('src="/__remote-doc"'));
   assert.ok(docHtml.includes("My Remote Doc"));
 });
 
 test("Editor bootstraps with the opened file, and without one when absent", () => {
-  const plain = generateEditorHtml("nord", {}, "classic", "slide");
+  const plain = generateEditorHtml("maxx-mellow", {}, "minimal", "slide");
   assert.ok(plain.includes('"file":null'));
 
-  const backed = generateEditorHtml("nord", {}, "classic", "slide", {
+  const backed = generateEditorHtml("maxx-mellow", {}, "minimal", "slide", {
     name: "slides.md",
     kind: "markdown",
     writable: true,
@@ -195,28 +194,28 @@ test("Editor bootstraps with the opened file, and without one when absent", () =
 });
 
 test("Generate preview HTML produces valid preview structure", () => {
-  const html = generatePreviewHtml("gruvbox", {}, "minimal", "zoom");
-  assert.ok(html.includes('data-theme="gruvbox"'));
+  const html = generatePreviewHtml("maxx-mellow-dawn", {}, "minimal", "none");
+  assert.ok(html.includes('data-theme="maxx-mellow-dawn"'));
   assert.ok(html.includes('data-template="minimal"'));
-  assert.ok(html.includes('data-transition="zoom"'));
+  assert.ok(html.includes('data-transition="none"'));
   assert.ok(html.includes('id="presentation"'));
 });
 
 test("Generate editor HTML produces valid editor interface", () => {
-  const html = generateEditorHtml("dracula", { head: "inter", body: "lora" }, "spotlight", "lift");
-  assert.ok(html.includes('data-theme="dracula"'));
-  assert.ok(html.includes('data-template="spotlight"'));
-  assert.ok(html.includes('data-transition="lift"'));
+  const html = generateEditorHtml("maxx-mellow", { head: "geist", body: "newsreader" }, "minimal", "fade");
+  assert.ok(html.includes('data-theme="maxx-mellow"'));
+  assert.ok(html.includes('data-template="minimal"'));
+  assert.ok(html.includes('data-transition="fade"'));
   assert.ok(html.includes("deckrun · editor"));
 });
 
 test("Theme and font resolvers function properly", () => {
-  assert.equal(resolveThemeName("nord"), "nord");
-  assert.equal(resolveThemeName("Nord"), "nord");
-  assert.equal(resolveThemeName("invalid-theme"), "nord");
+  assert.equal(resolveThemeName("maxx-mellow"), "maxx-mellow");
+  assert.equal(resolveThemeName("Maxx-Mellow"), "maxx-mellow");
+  assert.equal(resolveThemeName("invalid-theme"), "maxx-mellow");
 
-  assert.equal(findFont("inter"), "inter");
-  assert.equal(findFont("Inter"), "inter");
+  assert.equal(findFont("geist"), "geist");
+  assert.equal(findFont("Geist"), "geist");
   assert.equal(findFont("non-existent-font"), null);
 });
 
@@ -301,69 +300,49 @@ test("Highlight colors are fixed, not borrowed from the theme", async () => {
   assert.ok(HIGHLIGHT_RUNTIME.includes("var(--mantle,"));
 });
 
-test("The four official Catppuccin flavors are registered with exact palette values", async () => {
+test("Only maxx-mellow and its dawn companion remain registered", async () => {
   const { THEME_IDS, THEMES, themeSummaries, themeRootCss, resolveThemeName: resolveTheme } =
     await import("../dist/themes.js");
 
+  assert.deepEqual([...THEME_IDS], ["maxx-mellow", "maxx-mellow-dawn"]);
+
   const flavors = {
-    "catppuccin-latte": { mood: "light", base: "#eff1f5", text: "#4c4f69", mauve: "#8839ef" },
-    "catppuccin-frappe": { mood: "dark", base: "#303446", text: "#c6d0f5", mauve: "#ca9ee6" },
-    "catppuccin-macchiato": { mood: "dark", base: "#24273a", text: "#cad3f5", mauve: "#c6a0f6" },
-    "catppuccin-mocha": { mood: "dark", base: "#1e1e2e", text: "#cdd6f4", mauve: "#cba6f7" },
+    "maxx-mellow": { mood: "dark", background: "#161617", text: "#c9c7cd" },
+    "maxx-mellow-dawn": { mood: "light", background: "#f4f2f0", text: "#52505a" },
   };
 
   for (const [id, expected] of Object.entries(flavors)) {
-    assert.ok(THEME_IDS.includes(id), id + " is registered in THEME_IDS");
     assert.equal(resolveTheme(id), id, id + " resolves to itself, not a fallback");
 
     const theme = THEMES[id];
     assert.equal(theme.mood, expected.mood, id + " has the right light/dark mood");
-    assert.equal(theme.neutrals.base, expected.base, id + " base matches the official hex");
-    assert.equal(theme.neutrals.text, expected.text, id + " text matches the official hex");
-    assert.equal(theme.accents.mauve, expected.mauve, id + " mauve matches the official hex");
+    assert.equal(theme.neutrals.mantle, expected.background, id + " background matches the brand hex");
+    assert.equal(theme.neutrals.text, expected.text, id + " text matches the brand hex");
 
-    // Every theme renders a full custom-property block, same as any other.
     const css = themeRootCss(id);
-    assert.ok(css.includes(`--base:`) && css.includes(expected.base), id + " emits its base color");
     assert.ok(css.includes("--accent:"), id + " emits an accent role");
 
-    const slides = parseSlides("# Catppuccin\nFlavor check");
+    const slides = parseSlides("# Maxx Mellow\nPalette check");
     const html = generateHtml(slides, "Deck", false, id, "m");
     assert.ok(html.includes(`data-theme="${id}"`), id + " renders with its own data-theme attribute");
   }
 
-  // Latte is the only light flavor; the other three are dark — this is the
-  // exact axis "dark mode only" logic keys off of, so it must not misfire.
-  const summaries = themeSummaries().filter((t) => t.id in flavors);
-  assert.equal(summaries.length, 4);
+  const summaries = themeSummaries();
+  assert.equal(summaries.length, 2);
   for (const s of summaries) {
     assert.equal(s.mood, flavors[s.id].mood, s.id + " summary mood matches");
   }
-});
 
-test("One Dark Pro is registered with the official Atom One Dark palette", async () => {
-  const { THEME_IDS, THEMES, themeRootCss, resolveThemeName: resolveTheme } =
-    await import("../dist/themes.js");
-
-  assert.ok(THEME_IDS.includes("onedarkpro"), "onedarkpro is registered in THEME_IDS");
-  assert.equal(resolveTheme("onedarkpro"), "onedarkpro", "resolves to itself, not a fallback");
-
-  const theme = THEMES.onedarkpro;
-  assert.equal(theme.mood, "dark");
-  assert.equal(theme.neutrals.base, "#282c34", "base matches the official editor background");
-  assert.equal(theme.neutrals.subtext1, "#abb2bf", "subtext1 matches the official body text color");
-  assert.equal(theme.accents.mauve, "#c678dd", "mauve matches the official keyword purple");
-  assert.equal(theme.accents.blue, "#61afef", "blue matches the official function blue");
-  assert.equal(theme.accents.green, "#98c379", "green matches the official string green");
-  // The user-facing grammar colors this theme advertises (keyword/string/number/
-  // function/class/comment/variable/operator) are exactly highlight.js's own
-  // atom-one-dark stylesheet, not an approximation like some other dark themes use.
-  assert.ok(theme.hljs.includes("atom-one-dark.min.css"), "pairs with the exact atom-one-dark grammar");
-
-  const slides = parseSlides("# One Dark Pro\nTheme check");
-  const html = generateHtml(slides, "Deck", false, "onedarkpro", "m");
-  assert.ok(html.includes('data-theme="onedarkpro"'), "renders with its own data-theme attribute");
-  assert.ok(themeRootCss("onedarkpro").includes("--base:") && themeRootCss("onedarkpro").includes("#282c34"));
+  // Every previously-shipped theme is gone and falls back to the default.
+  for (const gone of [
+    "midnight", "tokyo", "nord", "dracula", "gruvbox", "rosepine", "forest",
+    "onedarkpro", "catppuccin-frappe", "catppuccin-macchiato", "catppuccin-mocha",
+    "neon", "daylight", "arctic", "solarized", "paper", "rosequartz", "swiss",
+    "catppuccin-latte",
+  ]) {
+    assert.equal(THEMES[gone], undefined, gone + " is no longer registered");
+    assert.equal(resolveTheme(gone), "maxx-mellow", gone + " falls back to the default");
+  }
 });
 
 test("The type size option is gone from every surface", async () => {

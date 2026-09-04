@@ -81,26 +81,9 @@ const SERIF = "Georgia, 'Times New Roman', serif";
 const MONO = "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
 
 export const FONTS: Record<string, FontFace> = {
-  inter:         { param: "Inter:wght@300;400;500;600;700;800",                      stack: `'Inter', ${SANS}`, kind: "sans" },
-  spaceGrotesk:  { param: "Space+Grotesk:wght@400;500;600;700",                      stack: `'Space Grotesk', ${SANS}`, kind: "sans" },
-  sora:          { param: "Sora:wght@300;400;500;600;700;800",                       stack: `'Sora', ${SANS}`, kind: "sans" },
-  manrope:       { param: "Manrope:wght@400;500;600;700;800",                        stack: `'Manrope', ${SANS}`, kind: "sans" },
-  figtree:       { param: "Figtree:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400",    stack: `'Figtree', ${SANS}`, kind: "sans" },
-  outfit:        { param: "Outfit:wght@300;400;500;600;700;800",                      stack: `'Outfit', ${SANS}`, kind: "sans" },
-  archivo:       { param: "Archivo:wght@400;500;600;700;800;900",                     stack: `'Archivo', ${SANS}`, kind: "sans" },
-  syne:          { param: "Syne:wght@400;500;600;700;800",                            stack: `'Syne', ${SANS}`, kind: "sans" },
-  bricolage:     { param: "Bricolage+Grotesque:wght@400;500;600;700;800",              stack: `'Bricolage Grotesque', ${SANS}`, kind: "sans" },
-  workSans:      { param: "Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400",         stack: `'Work Sans', ${SANS}`, kind: "sans" },
-  plexSans:      { param: "IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400", stack: `'IBM Plex Sans', ${SANS}`, kind: "sans" },
-  fraunces:      { param: "Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400", stack: `'Fraunces', ${SERIF}`, kind: "serif" },
-  playfair:      { param: "Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500",  stack: `'Playfair Display', ${SERIF}`, kind: "serif" },
-  newsreader:    { param: "Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400", stack: `'Newsreader', ${SERIF}`, kind: "serif" },
-  lora:          { param: "Lora:ital,wght@0,400;0,500;0,600;0,700;1,400",              stack: `'Lora', ${SERIF}`, kind: "serif" },
-  plexMono:      { param: "IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400", stack: `'IBM Plex Mono', ${MONO}`, kind: "mono" },
-  jetbrains:     { param: "JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400",    stack: `'JetBrains Mono', ${MONO}`, kind: "mono" },
-  firaCode:      { param: "Fira+Code:wght@400;500;600;700",                            stack: `'Fira Code', ${MONO}`, kind: "mono" },
-  spaceMono:     { param: "Space+Mono:ital,wght@0,400;0,700;1,400",                    stack: `'Space Mono', ${MONO}`, kind: "mono" },
-  sourceCodePro: { param: "Source+Code+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400",    stack: `'Source Code Pro', ${MONO}`, kind: "mono" },
+  geist:      { param: "Geist:wght@400;500;600;700;800",                      stack: `'Geist', ${SANS}`, kind: "sans" },
+  newsreader: { param: "Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400", stack: `'Newsreader', ${SERIF}`, kind: "serif" },
+  plexMono:   { param: "IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400", stack: `'IBM Plex Mono', ${MONO}`, kind: "mono" },
 };
 
 /**
@@ -115,7 +98,7 @@ export function googleFontsHref(
   extra: Array<string | null | undefined> = []
 ): string {
   const wanted = new Set<string>();
-  wanted.add("jetbrains");
+  wanted.add("plexMono");
   for (const input of themes) {
     const t = THEMES[resolveThemeName(input)];
     wanted.add(t.type.display);
@@ -196,441 +179,51 @@ export interface Theme extends ThemeSpec {
 const HL = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/";
 
 const SPECS: Record<string, ThemeSpec> = {
-  // ── Dark ───────────────────────────────────────────────────────────────
-  midnight: {
-    label: "midnight",
+  "maxx-mellow": {
+    label: "maxx mellow",
     mood: "dark",
-    blurb: "Catppuccin Mocha. Violet on deep indigo, drifting orbs.",
+    blurb: "Low-contrast, warm-muted. Dark is the primary identity, drifting orbs.",
     neutrals: {
-      crust: "#11111b", mantle: "#181825", base: "#1e1e2e",
-      surface0: "#313244", surface1: "#45475a", surface2: "#585b70",
-      overlay0: "#6c7086", overlay1: "#7f849c",
-      subtext0: "#a6adc8", subtext1: "#bac2de", text: "#cdd6f4",
+      crust: "#131314", mantle: "#161617", base: "#19191a",
+      surface0: "#222223", surface1: "#2a2a2c", surface2: "#3b3b3e",
+      overlay0: "#57575b", overlay1: "#747377",
+      subtext0: "#908f94", subtext1: "#adabb0", text: "#c9c7cd",
     },
     accents: {
-      lavender: "#b4befe", blue: "#89b4fa", sapphire: "#74c7ec", sky: "#89dceb",
-      teal: "#94e2d5", green: "#a6e3a1", yellow: "#f9e2af", peach: "#fab387",
-      red: "#f38ba8", mauve: "#cba6f7", pink: "#f5c2e7",
+      lavender: "#aca1cf", blue: "#92a2d5", sapphire: "#acb1d7", sky: "#97c0c4",
+      teal: "#85b5ba", green: "#90b99f", yellow: "#e6b99d", peach: "#f5a191",
+      red: "#ea83a5", mauve: "#b7aed5", pink: "#e29eca",
     },
-    roles: { accent: "mauve", accent2: "blue", accent3: "sky" },
-    type: { display: "spaceGrotesk", body: "inter", mono: "plexMono", weight: 700, tracking: "-0.025em" },
+    roles: { accent: "lavender", accent2: "blue", accent3: "teal" },
+    type: { display: "geist", body: "geist", mono: "plexMono", weight: 600, tracking: "-0.015em" },
     decor: "orbs",
-    hljs: `${HL}tokyo-night-dark.min.css`,
-  },
-
-  tokyo: {
-    label: "tokyo night",
-    mood: "dark",
-    blurb: "Neon cyan over a wireframe grid, lifted from a rainy skyline.",
-    neutrals: {
-      crust: "#16161e", mantle: "#1a1b26", base: "#1f2335",
-      surface0: "#292e42", surface1: "#3b4261", surface2: "#545c7e",
-      overlay0: "#626c96", overlay1: "#7c86ab",
-      subtext0: "#a5b0d6", subtext1: "#b7c0e0", text: "#c8d3f5",
-    },
-    accents: {
-      lavender: "#a9b1ff", blue: "#7aa2f7", sapphire: "#2ac3de", sky: "#7dcfff",
-      teal: "#73daca", green: "#9ece6a", yellow: "#e0af68", peach: "#ff9e64",
-      red: "#f7768e", mauve: "#bb9af7", pink: "#ff7eb6",
-    },
-    roles: { accent: "sapphire", accent2: "mauve", accent3: "teal" },
-    type: { display: "sora", body: "inter", mono: "jetbrains", weight: 700, tracking: "-0.03em" },
-    decor: "grid",
-    hljs: `${HL}tokyo-night-dark.min.css`,
-  },
-
-  nord: {
-    label: "nord",
-    mood: "dark",
-    blurb: "Arctic frost blue on polar slate, with slow contour waves.",
-    neutrals: {
-      crust: "#232831", mantle: "#2e3440", base: "#353c4a",
-      surface0: "#3b4252", surface1: "#434c5e", surface2: "#4c566a",
-      overlay0: "#707d92", overlay1: "#8e9aae",
-      subtext0: "#c3ccda", subtext1: "#d8dee9", text: "#eceff4",
-    },
-    accents: {
-      lavender: "#c9a9c8", blue: "#81a1c1", sapphire: "#88c0d0", sky: "#a3d4e0",
-      teal: "#8fbcbb", green: "#a3be8c", yellow: "#ebcb8b", peach: "#d08770",
-      red: "#bf616a", mauve: "#b48ead", pink: "#d3a3c6",
-    },
-    roles: { accent: "sapphire", accent2: "blue", accent3: "teal" },
-    type: { display: "jetbrains", body: "jetbrains", mono: "jetbrains", weight: 700, tracking: "-0.025em" },
-    decor: "waves",
-    hljs: `${HL}nord.min.css`,
-  },
-
-  dracula: {
-    label: "dracula",
-    mood: "dark",
-    blurb: "Purple and hot pink over charcoal, lit by a gradient mesh.",
-    neutrals: {
-      crust: "#1a1b23", mantle: "#21222c", base: "#282a36",
-      surface0: "#343746", surface1: "#44475a", surface2: "#565a70",
-      overlay0: "#6272a4", overlay1: "#7b85b6",
-      subtext0: "#c8cbe0", subtext1: "#e2e4f0", text: "#f8f8f2",
-    },
-    accents: {
-      lavender: "#d6bcff", blue: "#79b8ff", sapphire: "#8be9fd", sky: "#a4f0fd",
-      teal: "#66e0c8", green: "#50fa7b", yellow: "#f1fa8c", peach: "#ffb86c",
-      red: "#ff5555", mauve: "#bd93f9", pink: "#ff79c6",
-    },
-    roles: { accent: "mauve", accent2: "pink", accent3: "sapphire" },
-    type: { display: "syne", body: "figtree", mono: "firaCode", weight: 800, tracking: "-0.02em" },
-    decor: "mesh",
-    hljs: `${HL}base16/dracula.min.css`,
-  },
-
-  gruvbox: {
-    label: "gruvbox",
-    mood: "dark",
-    blurb: "Warm amber and moss on retro brown, hatched like graph paper.",
-    neutrals: {
-      crust: "#1b1e1f", mantle: "#232728", base: "#282828",
-      surface0: "#32302f", surface1: "#3c3836", surface2: "#504945",
-      overlay0: "#7c6f64", overlay1: "#928374",
-      subtext0: "#bdae93", subtext1: "#d5c4a1", text: "#ebdbb2",
-    },
-    accents: {
-      lavender: "#d3b8c8", blue: "#83a598", sapphire: "#7daea3", sky: "#8ec07c",
-      teal: "#89b482", green: "#b8bb26", yellow: "#fabd2f", peach: "#fe8019",
-      red: "#fb4934", mauve: "#d3869b", pink: "#e2a3b4",
-    },
-    roles: { accent: "yellow", accent2: "peach", accent3: "green" },
-    type: { display: "bricolage", body: "workSans", mono: "plexMono", weight: 700, tracking: "-0.02em" },
-    decor: "topo",
-    hljs: `${HL}base16/gruvbox-dark-medium.min.css`,
-  },
-
-  rosepine: {
-    label: "rosé pine",
-    mood: "dark",
-    blurb: "Muted iris and gold on plum, under a slow aurora.",
-    neutrals: {
-      crust: "#14121f", mantle: "#191724", base: "#1f1d2e",
-      surface0: "#26233a", surface1: "#403d52", surface2: "#524f67",
-      overlay0: "#6e6a86", overlay1: "#817c9c",
-      subtext0: "#b6b2d0", subtext1: "#cdc9e6", text: "#e0def4",
-    },
-    accents: {
-      lavender: "#d5c4ee", blue: "#6a9fb5", sapphire: "#6ba8bf", sky: "#9ccfd8",
-      teal: "#86cfc4", green: "#9ccfa8", yellow: "#f6c177", peach: "#f0a882",
-      red: "#eb6f92", mauve: "#c4a7e7", pink: "#ebbcba",
-    },
-    roles: { accent: "mauve", accent2: "sky", accent3: "yellow" },
-    type: { display: "fraunces", body: "newsreader", mono: "plexMono", weight: 600, tracking: "-0.02em", bodyTracking: "0.004em" },
-    decor: "aurora",
-    hljs: `${HL}base16/ros-pine.min.css`,
-  },
-
-  neon: {
-    label: "neon",
-    mood: "dark",
-    blurb: "Electric cyan and magenta on true black, raked by light beams.",
-    neutrals: {
-      crust: "#050509", mantle: "#0a0a12", base: "#0e0e1a",
-      surface0: "#16162a", surface1: "#22223c", surface2: "#2e2e50",
-      overlay0: "#4f4f78", overlay1: "#6a6a96",
-      subtext0: "#a8a8cc", subtext1: "#c8c8e4", text: "#f0f0ff",
-    },
-    accents: {
-      lavender: "#b39dff", blue: "#4d9fff", sapphire: "#22d3ee", sky: "#38e8ff",
-      teal: "#2dd4bf", green: "#4ade80", yellow: "#fde047", peach: "#fb923c",
-      red: "#fb5c7d", mauve: "#d946ef", pink: "#ff5cc8",
-    },
-    roles: { accent: "sapphire", accent2: "pink", accent3: "sky" },
-    type: { display: "spaceGrotesk", body: "spaceGrotesk", mono: "spaceMono", weight: 700, tracking: "0.04em", case: "uppercase" },
-    decor: "beams",
-    hljs: `${HL}night-owl.min.css`,
-  },
-
-  forest: {
-    label: "forest",
-    mood: "dark",
-    blurb: "Everforest sage on deep pine, rippling in concentric rings.",
-    neutrals: {
-      crust: "#232a2e", mantle: "#2d353b", base: "#343f44",
-      surface0: "#3d484d", surface1: "#475258", surface2: "#4f585e",
-      overlay0: "#7a8478", overlay1: "#9da9a0",
-      subtext0: "#c2c9bd", subtext1: "#d3c6aa", text: "#e5dfd2",
-    },
-    accents: {
-      lavender: "#d8b9c8", blue: "#7fbbb3", sapphire: "#6fb5ac", sky: "#9ed3c8",
-      teal: "#83c092", green: "#a7c080", yellow: "#dbbc7f", peach: "#e69875",
-      red: "#e67e80", mauve: "#d699b6", pink: "#e3aec3",
-    },
-    roles: { accent: "green", accent2: "sapphire", accent3: "yellow" },
-    type: { display: "outfit", body: "figtree", mono: "jetbrains", weight: 600, tracking: "-0.025em" },
-    decor: "rings",
     hljs: `${HL}atom-one-dark.min.css`,
   },
 
-  // Atom's One Dark, as shipped by the "One Dark Pro" VS Code extension
-  // (github.com/Binaryify/OneDark-Pro) — editor chrome hex values pulled
-  // straight from its theme JSON; grammar colors are the classic
-  // hue-1..hue-6 syntax set the whole One Dark family shares, which is also
-  // exactly what highlight.js's own atom-one-dark stylesheet paints with.
-  onedarkpro: {
-    label: "one dark pro",
-    mood: "dark",
-    blurb: "Atom's One Dark Pro. Muted blue-grey with cyan and violet accents, on charcoal.",
-    neutrals: {
-      crust: "#181a1f", mantle: "#21252b", base: "#282c34",
-      surface0: "#2c313c", surface1: "#3e4452", surface2: "#495162",
-      overlay0: "#4e5666", overlay1: "#5a6375",
-      subtext0: "#5c6370", subtext1: "#abb2bf", text: "#d7dae0",
-    },
-    accents: {
-      lavender: "#c162de", blue: "#61afef", sapphire: "#528bff", sky: "#4dc4ff",
-      teal: "#56b6c2", green: "#98c379", yellow: "#e5c07b", peach: "#d19a66",
-      red: "#e06c75", mauve: "#c678dd", pink: "#de73ff",
-    },
-    roles: { accent: "mauve", accent2: "blue", accent3: "teal" },
-    type: { display: "manrope", body: "inter", mono: "jetbrains", weight: 700, tracking: "-0.03em" },
-    decor: "grid",
-    hljs: `${HL}atom-one-dark.min.css`,
-  },
-
-  // ── Catppuccin (official) ─────────────────────────────────────────────
-  // Exact palette values from https://catppuccin.com/palette/ — the
-  // community-maintained Catppuccin project. `midnight` above already *is*
-  // the unmodified Mocha palette under its own name/fonts/decor; `catppuccin-
-  // mocha` repeats it deliberately so the flavor is findable by its official
-  // name too. `daylight` is a contrast-tuned Latte variant, not exact — these
-  // three (plus `catppuccin-latte` below) are the unmodified flavors.
-  //
-  // The four share a palette family but each gets its own `type`, `decor`,
-  // and `roles` — the same axes that make any two of the original themes
-  // read as different rather than just differently tinted. Sharing those too
-  // (as an earlier pass did) left them looking like one theme with a dimmer
-  // switch.
-  "catppuccin-frappe": {
-    label: "catppuccin frappé",
-    mood: "dark",
-    blurb: "Official Catppuccin Frappé. Muted mauve on soft slate blue.",
-    neutrals: {
-      crust: "#232634", mantle: "#292c3c", base: "#303446",
-      surface0: "#414559", surface1: "#51576d", surface2: "#626880",
-      overlay0: "#737994", overlay1: "#838ba7",
-      subtext0: "#a5adce", subtext1: "#b5bfe2", text: "#c6d0f5",
-    },
-    accents: {
-      lavender: "#babbf1", blue: "#8caaee", sapphire: "#85c1dc", sky: "#99d1db",
-      teal: "#81c8be", green: "#a6d189", yellow: "#e5c890", peach: "#ef9f76",
-      red: "#e78284", mauve: "#ca9ee6", pink: "#f4b8e4",
-    },
-    roles: { accent: "mauve", accent2: "sky", accent3: "green" },
-    type: { display: "figtree", body: "inter", mono: "jetbrains", weight: 600, tracking: "-0.02em" },
-    decor: "dots",
-    hljs: `${HL}nord.min.css`,
-  },
-
-  "catppuccin-macchiato": {
-    label: "catppuccin macchiato",
-    mood: "dark",
-    blurb: "Official Catppuccin Macchiato. Balanced mauve on deep indigo.",
-    neutrals: {
-      crust: "#181926", mantle: "#1e2030", base: "#24273a",
-      surface0: "#363a4f", surface1: "#494d64", surface2: "#5b6078",
-      overlay0: "#6e738d", overlay1: "#8087a2",
-      subtext0: "#a5adcb", subtext1: "#b8c0e0", text: "#cad3f5",
-    },
-    accents: {
-      lavender: "#b7bdf8", blue: "#8aadf4", sapphire: "#7dc4e4", sky: "#91d7e3",
-      teal: "#8bd5ca", green: "#a6da95", yellow: "#eed49f", peach: "#f5a97f",
-      red: "#ed8796", mauve: "#c6a0f6", pink: "#f5bde6",
-    },
-    roles: { accent: "pink", accent2: "blue", accent3: "sapphire" },
-    type: { display: "outfit", body: "plexSans", mono: "firaCode", weight: 700, tracking: "-0.03em" },
-    decor: "rings",
-    hljs: `${HL}base16/dracula.min.css`,
-  },
-
-  "catppuccin-mocha": {
-    label: "catppuccin mocha",
-    mood: "dark",
-    blurb: "Official Catppuccin Mocha. Full-strength mauve on the darkest base.",
-    neutrals: {
-      crust: "#11111b", mantle: "#181825", base: "#1e1e2e",
-      surface0: "#313244", surface1: "#45475a", surface2: "#585b70",
-      overlay0: "#6c7086", overlay1: "#7f849c",
-      subtext0: "#a6adc8", subtext1: "#bac2de", text: "#cdd6f4",
-    },
-    accents: {
-      lavender: "#b4befe", blue: "#89b4fa", sapphire: "#74c7ec", sky: "#89dceb",
-      teal: "#94e2d5", green: "#a6e3a1", yellow: "#f9e2af", peach: "#fab387",
-      red: "#f38ba8", mauve: "#cba6f7", pink: "#f5c2e7",
-    },
-    roles: { accent: "mauve", accent2: "blue", accent3: "teal" },
-    type: { display: "manrope", body: "inter", mono: "jetbrains", weight: 700, tracking: "-0.03em" },
-    decor: "waves",
-    hljs: `${HL}tokyo-night-dark.min.css`,
-  },
-
-  // ── Light ──────────────────────────────────────────────────────────────
-  daylight: {
-    label: "daylight",
+  "maxx-mellow-dawn": {
+    label: "maxx mellow dawn",
     mood: "light",
-    blurb: "Catppuccin Latte, contrast-tuned for a projector. Dot matrix.",
+    blurb: "The mellow palette re-tuned for daylight, not inverted.",
     neutrals: {
-      crust: "#ebebeb", mantle: "#f5f5f5", base: "#fafaf8",
-      surface0: "#ccd0da", surface1: "#9ca0b0", surface2: "#8c8fa1",
-      overlay0: "#6c6f85", overlay1: "#5c5f77",
-      subtext0: "#4c4f69", subtext1: "#3a3c52", text: "#1e2030",
+      crust: "#eae7e3", mantle: "#f4f2f0", base: "#fefdfd",
+      surface0: "#f7f5f4", surface1: "#efedeb", surface2: "#e0ddd9",
+      overlay0: "#c4c1c0", overlay1: "#a7a5a6",
+      subtext0: "#8b888d", subtext1: "#6e6c73", text: "#52505a",
     },
     accents: {
-      lavender: "#7287fd", blue: "#1e66f5", sapphire: "#209fb5", sky: "#04a5e5",
-      teal: "#179299", green: "#40a02b", yellow: "#df8e1d", peach: "#fe640b",
-      red: "#d20f39", mauve: "#8839ef", pink: "#ea76cb",
+      lavender: "#7c70a8", blue: "#5f6fb0", sapphire: "#53619f", sky: "#437a7f",
+      teal: "#4d868b", green: "#588368", yellow: "#a9744f", peach: "#bd6650",
+      red: "#b25c7e", mauve: "#6f6299", pink: "#9c5695",
     },
-    roles: { accent: "mauve", accent2: "blue", accent3: "teal" },
-    type: { display: "spaceGrotesk", body: "inter", mono: "plexMono", weight: 700, tracking: "-0.025em" },
-    decor: "dots",
-    hljs: `${HL}atom-one-light.min.css`,
-  },
-
-  paper: {
-    label: "paper",
-    mood: "light",
-    blurb: "Crimson serif on warm cream. Editorial, print-first, very legible.",
-    neutrals: {
-      crust: "#efe8dc", mantle: "#f7f2e9", base: "#fdfbf5",
-      surface0: "#e4dccc", surface1: "#cec4b0", surface2: "#b0a48d",
-      overlay0: "#8b8069", overlay1: "#6e6553",
-      subtext0: "#4d4535", subtext1: "#38311f", text: "#211c11",
-    },
-    accents: {
-      lavender: "#6f5ba8", blue: "#2d5fa8", sapphire: "#1f7f96", sky: "#10788f",
-      teal: "#1c7a6b", green: "#3f7a2e", yellow: "#9a6c12", peach: "#b35311",
-      red: "#a81f2c", mauve: "#7a3f9c", pink: "#a83f77",
-    },
-    roles: { accent: "red", accent2: "sapphire", accent3: "yellow" },
-    type: { display: "fraunces", body: "newsreader", mono: "plexMono", weight: 700, tracking: "-0.02em", bodyTracking: "0.003em" },
-    decor: "rings",
-    hljs: `${HL}atom-one-light.min.css`,
-  },
-
-  solarized: {
-    label: "solarized",
-    mood: "light",
-    blurb: "The classic low-glare cream, paired with Lora for long prose.",
-    neutrals: {
-      crust: "#eee8d5", mantle: "#f5efdc", base: "#fdf6e3",
-      surface0: "#e3ddc8", surface1: "#c9c3ad", surface2: "#a8a48e",
-      overlay0: "#839496", overlay1: "#657b83",
-      subtext0: "#586e75", subtext1: "#3f5b62", text: "#073642",
-    },
-    accents: {
-      lavender: "#8a8fd0", blue: "#268bd2", sapphire: "#1f8fa8", sky: "#2aa198",
-      teal: "#21958c", green: "#859900", yellow: "#b58900", peach: "#cb4b16",
-      red: "#dc322f", mauve: "#6c71c4", pink: "#d33682",
-    },
-    roles: { accent: "blue", accent2: "mauve", accent3: "teal" },
-    type: { display: "outfit", body: "lora", mono: "sourceCodePro", weight: 600, tracking: "-0.02em" },
-    decor: "topo",
-    hljs: `${HL}base16/solarized-light.min.css`,
-  },
-
-  rosequartz: {
-    label: "rose quartz",
-    mood: "light",
-    blurb: "Rosé Pine Dawn. Blush and iris on linen, with soft orbs.",
-    neutrals: {
-      crust: "#f2e9e1", mantle: "#faf4ed", base: "#fffaf3",
-      surface0: "#ece0d8", surface1: "#d8ccc6", surface2: "#bdb0ae",
-      overlay0: "#9893a5", overlay1: "#7d7791",
-      subtext0: "#625b7d", subtext1: "#55506e", text: "#423d5c",
-    },
-    accents: {
-      lavender: "#a68fc0", blue: "#286983", sapphire: "#2f7d92", sky: "#56949f",
-      teal: "#4a9188", green: "#5a8f52", yellow: "#ea9d34", peach: "#d7827e",
-      red: "#b4637a", mauve: "#907aa9", pink: "#c4759a",
-    },
-    roles: { accent: "red", accent2: "mauve", accent3: "sky" },
-    type: { display: "playfair", body: "figtree", mono: "plexMono", weight: 700, tracking: "-0.02em" },
+    roles: { accent: "lavender", accent2: "blue", accent3: "teal" },
+    type: { display: "geist", body: "geist", mono: "plexMono", weight: 600, tracking: "-0.015em" },
     decor: "orbs",
-    hljs: `${HL}base16/ros-pine-dawn.min.css`,
-  },
-
-  swiss: {
-    label: "swiss",
-    mood: "light",
-    blurb: "Black on white, one red. Heavy grotesk, tight tracking, hard grid.",
-    neutrals: {
-      crust: "#f0f0f0", mantle: "#f8f8f8", base: "#ffffff",
-      surface0: "#dcdcdc", surface1: "#bebebe", surface2: "#9a9a9a",
-      overlay0: "#767676", overlay1: "#5a5a5a",
-      subtext0: "#3a3a3a", subtext1: "#222222", text: "#0a0a0a",
-    },
-    accents: {
-      lavender: "#4b4b8f", blue: "#1a4fd6", sapphire: "#0a6e8a", sky: "#0e7490",
-      teal: "#0f766e", green: "#15803d", yellow: "#a16207", peach: "#c2410c",
-      red: "#e01b24", mauve: "#5b21b6", pink: "#be185d",
-    },
-    roles: { accent: "red", accent2: "text", accent3: "overlay1" },
-    type: { display: "archivo", body: "inter", mono: "plexMono", weight: 900, tracking: "-0.045em" },
-    decor: "grid",
-    hljs: `${HL}github.min.css`,
-  },
-
-  arctic: {
-    label: "arctic",
-    mood: "light",
-    blurb: "Nord inverted. Frost blue on cool paper, with contour waves.",
-    neutrals: {
-      crust: "#e3e8ef", mantle: "#eceff4", base: "#f7f9fc",
-      surface0: "#dbe1ea", surface1: "#c2cad6", surface2: "#a3adbd",
-      overlay0: "#7b8797", overlay1: "#5f6b7c",
-      subtext0: "#445060", subtext1: "#364150", text: "#2e3440",
-    },
-    accents: {
-      lavender: "#9c6f96", blue: "#4a7ba7", sapphire: "#2f7d94", sky: "#3d8fa8",
-      teal: "#3b8b8a", green: "#5d8a45", yellow: "#b08834", peach: "#c06a4a",
-      red: "#b0505a", mauve: "#96628f", pink: "#a86a94",
-    },
-    roles: { accent: "sapphire", accent2: "blue", accent3: "teal" },
-    type: { display: "manrope", body: "plexSans", mono: "jetbrains", weight: 800, tracking: "-0.035em" },
-    decor: "waves",
-    hljs: `${HL}atom-one-light.min.css`,
-  },
-
-  // ── Catppuccin (official) ─────────────────────────────────────────────
-  // See the "Catppuccin (official)" block in the Dark section above for the
-  // attribution note; `daylight` is a contrast-tuned Latte variant, this is
-  // the unmodified flavor.
-  "catppuccin-latte": {
-    label: "catppuccin latte",
-    mood: "light",
-    blurb: "Official Catppuccin Latte. Warm mauve on soft cream.",
-    neutrals: {
-      crust: "#dce0e8", mantle: "#e6e9ef", base: "#eff1f5",
-      surface0: "#ccd0da", surface1: "#bcc0cc", surface2: "#acb0be",
-      overlay0: "#9ca0b0", overlay1: "#8c8fa1",
-      subtext0: "#6c6f85", subtext1: "#5c5f77", text: "#4c4f69",
-    },
-    accents: {
-      lavender: "#7287fd", blue: "#1e66f5", sapphire: "#209fb5", sky: "#04a5e5",
-      teal: "#179299", green: "#40a02b", yellow: "#df8e1d", peach: "#fe640b",
-      red: "#d20f39", mauve: "#8839ef", pink: "#ea76cb",
-    },
-    roles: { accent: "mauve", accent2: "blue", accent3: "teal" },
-    type: { display: "spaceGrotesk", body: "figtree", mono: "plexMono", weight: 700, tracking: "-0.025em" },
-    decor: "aurora",
     hljs: `${HL}atom-one-light.min.css`,
   },
 };
 
-/**
- * Ordered for the theme menu: dark first, then light, each roughly from
- * calmest to loudest.
- */
-export const THEME_IDS = [
-  "midnight", "tokyo", "nord", "dracula", "gruvbox", "rosepine", "forest",
-  "onedarkpro",
-  "catppuccin-frappe", "catppuccin-macchiato", "catppuccin-mocha", "neon",
-  "daylight", "arctic", "solarized", "paper", "rosequartz", "swiss",
-  "catppuccin-latte",
-] as const;
+/** Dark first, then its light companion. */
+export const THEME_IDS = ["maxx-mellow", "maxx-mellow-dawn"] as const;
 
 export type ThemeName = string;
 
@@ -640,16 +233,13 @@ export const THEMES: Record<string, Theme> = Object.fromEntries(
 
 /** `dark` and `light` predate the registry and still name the two originals. */
 const ALIASES: Record<string, string> = {
-  dark: "nord",
-  light: "daylight",
-  mocha: "midnight",
-  latte: "daylight",
-  "tokyo-night": "tokyo",
-  "rose-pine": "rosepine",
-  "rose-quartz": "rosequartz",
+  dark: "maxx-mellow",
+  light: "maxx-mellow-dawn",
+  mellow: "maxx-mellow",
+  dawn: "maxx-mellow-dawn",
 };
 
-export const DEFAULT_THEME = "nord";
+export const DEFAULT_THEME = "maxx-mellow";
 
 /** A theme id from untrusted input, or `null` if it names nothing. */
 export function findTheme(input: string | undefined | null): string | null {
@@ -739,12 +329,6 @@ function themeVars(t: Theme): string {
   const accent2 = role(t, "accent2");
   const accent3 = role(t, "accent3");
 
-  // Light themes need a tinted shadow rather than black, or every panel edge
-  // turns to soot; dark themes need real black to read as depth at all.
-  const sh = dark ? "0, 0, 0" : channels(n.text);
-  const s = (y: number, blur: number, op: number) =>
-    `0 ${y}px ${blur}px rgba(${sh}, ${dark ? op : op * 0.42})`;
-
   const lines: Array<[string, string]> = [
     ["crust", n.crust], ["mantle", n.mantle], ["base", n.base],
     ["surface0", n.surface0], ["surface1", n.surface1], ["surface2", n.surface2],
@@ -773,11 +357,13 @@ function themeVars(t: Theme): string {
     ["surface-soft", alpha(n.surface0, dark ? 0.34 : 0.42)],
     ["crust-overlay", alpha(n.crust, dark ? 0.84 : 0.88)],
     ["scrim", dark ? "rgba(0, 0, 0, 0.5)" : alpha(n.text, 0.26)],
-    ["hairline", alpha(n.text, dark ? 0.09 : 0.11)],
+    // No borders in this system: panels lean on background contrast alone.
+    ["hairline", "transparent"],
 
-    ["shadow-md", s(8, 28, 0.42)],
-    ["shadow-lg", s(24, 68, 0.52)],
-    ["code-shadow", s(6, 26, 0.4)],
+    // No shadows in this system: panels lean on background contrast alone.
+    ["shadow-md", "none"],
+    ["shadow-lg", "none"],
+    ["code-shadow", "none"],
 
     ["font-display", FONTS[t.type.display].stack],
     ["font-body", FONTS[t.type.body].stack],

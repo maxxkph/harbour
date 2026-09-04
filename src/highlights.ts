@@ -73,9 +73,7 @@ const UI_CSS = `.dr-bar, .dr-note, .dr-warn {
   gap: 2px;
   padding: 3px;
   background: var(--mantle, #181825);
-  border: 1px solid var(--surface1, #45475a);
   border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.34);
 }
 
 .dr-bar button, .dr-note button {
@@ -83,8 +81,8 @@ const UI_CSS = `.dr-bar, .dr-note, .dr-warn {
   font-size: 11px;
   letter-spacing: 0.06em;
   padding: 4px 9px;
+  border: none;
   border-radius: 5px;
-  border: 1px solid transparent;
   background: transparent;
   color: var(--subtext0, #a6adc8);
   cursor: pointer;
@@ -93,13 +91,11 @@ const UI_CSS = `.dr-bar, .dr-note, .dr-warn {
 
 .dr-bar button:hover, .dr-note button:hover {
   color: var(--text, #cdd6f4);
-  border-color: var(--surface1, #45475a);
   background: var(--surface0, #313244);
 }
 
 .dr-note button.dr-danger:hover {
   color: var(--red, #f38ba8);
-  border-color: var(--red, #f38ba8);
   background: transparent;
 }
 
@@ -107,17 +103,16 @@ const UI_CSS = `.dr-bar, .dr-note, .dr-warn {
   width: 272px;
   padding: 10px 11px 9px;
   background: var(--mantle, #181825);
-  border: 1px solid var(--surface1, #45475a);
   border-radius: 10px;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
 }
 
 .dr-note__quote {
   font-size: 10.5px;
   line-height: 1.5;
   color: var(--overlay1, #7f849c);
-  border-left: 2px solid #ffe75e;
-  padding-left: 7px;
+  background: color-mix(in srgb, #ffe75e 14%, transparent);
+  border-radius: 4px;
+  padding: 4px 7px;
   margin-bottom: 8px;
   max-height: 46px;
   overflow: hidden;
@@ -133,13 +128,13 @@ const UI_CSS = `.dr-bar, .dr-note, .dr-warn {
   line-height: 1.5;
   padding: 6px 7px;
   border-radius: 6px;
-  border: 1px solid var(--surface1, #45475a);
-  background: var(--base, #1e1e2e);
+  border: 0;
+  background: var(--surface0, #313244);
   color: var(--text, #cdd6f4);
   outline: none;
 }
 
-.dr-note textarea:focus { border-color: var(--accent, #89b4fa); }
+.dr-note textarea:focus { background: var(--surface1, #45475a); }
 
 .dr-note__row {
   display: flex;
@@ -161,10 +156,8 @@ const UI_CSS = `.dr-bar, .dr-note, .dr-warn {
   padding: 10px 12px;
   font-size: 11.5px;
   line-height: 1.6;
-  background: var(--mantle, #181825);
-  border: 1px solid #ffe75e;
+  background: color-mix(in srgb, #ffe75e 12%, var(--mantle, #181825));
   border-radius: 9px;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
   color: var(--subtext0, #a6adc8);
 }
 

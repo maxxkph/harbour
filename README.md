@@ -4,8 +4,8 @@ Write slides in Markdown or bring a self-contained HTML document, run a local se
 
 - **Two formats** - Markdown decks with slide-by-slide presentation, or self-contained HTML documents with continuous scrolling
 - **Live editor** - edit alongside a live preview, with autosave and a library of all your decks and docs
-- **14 themes** - unique palettes, typography, animated backdrops, and customizable heading and body fonts
-- **Templates and motion** - four composition templates and five transitions, switchable without touching the Markdown
+- **Maxx Mellow** - the built-in dark/light palette pair, with Geist and Newsreader as the two heading and body faces
+- **Motion** - a minimal composition template and three transitions (slide, fade, none), switchable without touching the Markdown
 - **Technical content** - KaTeX equations and Mermaid diagrams in preview, presentation, HTML, and PDF
 - **Incremental reveals** - step through bullets, prose, equations, code, or diagrams without duplicating slides
 - **Deck linting** - catch empty slides, broken fences/math, dense content, image issues, and invalid reveal markers locally or in CI
@@ -81,14 +81,14 @@ deckrun slides.md --no-watch
 # Show a launch overlay that enters fullscreen on the first key or click
 deckrun slides.md --fullscreen
 
-# Pick one of the fourteen themes
-deckrun slides.md --theme paper
+# Pick the light companion palette
+deckrun slides.md --theme maxx-mellow-dawn
 
 # Or set the two faces yourself
-deckrun slides.md --theme tokyo --head-font playfair --body-font lora
+deckrun slides.md --head-font geist --body-font newsreader
 
 # Recompose the same Markdown and choose how slides move
-deckrun slides.md --template editorial --transition fade
+deckrun slides.md --transition fade
 
 # Check one or more decks before presenting or committing them
 deckrun lint slides.md
@@ -137,11 +137,11 @@ The server binds to `127.0.0.1` only, so the deck is never exposed on the networ
 | `--no-open`           | `false` | Start the HTTP server without opening the browser      |
 | `--no-watch`          | `false` | Do not watch the opened file for changes on disk       |
 | `--fullscreen`        | `false` | Prompt to enter fullscreen on the first key or click   |
-| `--theme <name>`      | `nord`     | Any of the fourteen themes, by id                   |
+| `--theme <name>`      | `maxx-mellow` | `maxx-mellow` (dark) or `maxx-mellow-dawn` (light), by id |
 | `--head-font <name>`  |         | Override the theme's heading and title face             |
 | `--body-font <name>`  |         | Override the theme's body face                          |
-| `--template <name>`   | `classic` | Composition: `classic`, `minimal`, `editorial`, or `spotlight` |
-| `--transition <name>` | `slide` | Motion: `slide`, `fade`, `zoom`, `lift`, or `none`       |
+| `--template <name>`   | `minimal` | Composition: `minimal`                                 |
+| `--transition <name>` | `slide` | Motion: `slide`, `fade`, or `none`                       |
 | `--list-themes`       |         | Print every theme with its mood and blurb, then exit    |
 | `--list-fonts`        |         | Print every face and its kind, then exit                |
 | `--list-templates`    |         | Print every composition template, then exit             |
@@ -281,7 +281,7 @@ The `export` button in the top bar opens a menu with three formats. All three ar
 | PDF                   | `Cmd Shift S` | A real `.pdf` file — one 16:9 page per slide for a deck, or the doc's own pages for an HTML doc |
 | HTML / Presenter Page |               | One standalone `.html` page: the deck, or the doc wrapped with the presenter tool belt |
 
-PDF export does not hand you a print dialog. The server drives a headless browser over the built deck and streams back the finished file, so there is nothing to configure and nothing to get wrong. Pages are 13.333in by 7.5in, the standard widescreen slide size, with no margins: the theme, its backdrop geometry, code block surfaces, table fills, and background images all come through, and the HUD, arrows, cursor, pets, and speaker notes are stripped.
+PDF export does not hand you a print dialog. The server drives a headless browser over the built deck and streams back the finished file, so there is nothing to configure and nothing to get wrong. Pages are 13.333in by 7.5in, the standard widescreen slide size, with no margins: the theme, its backdrop geometry, code block surfaces, table fills, and background images all come through, and the HUD, arrows, and speaker notes are stripped.
 
 It uses a Chromium-family browser already on your machine and installs nothing. Chrome, Chromium, Edge, and Brave are found automatically in their usual locations; `DECKRUN_BROWSER`, `CHROME_PATH`, or `PUPPETEER_EXECUTABLE_PATH` points at one somewhere else, checked in that order. A render takes a few seconds, and only one runs at a time.
 
@@ -569,40 +569,23 @@ Images with no directive stay inline, centered in the document flow and capped a
 
 ## Themes
 
-Nineteen themes, twelve dark and seven light. A theme is not just a palette: each
-one brings its own display, body, and monospace faces, its own Highlight.js
-grammar colors, and its own animated geometry behind the slides.
+One theme, two lightness passes: dark is the primary identity, and its light
+companion re-tunes the same hues for daylight rather than inverting the
+palette. Each brings its own display, body, and monospace faces, its own
+Highlight.js grammar colors, and its own animated geometry behind the slides.
 
-| id                      | mood  | what it is                                                          |
-| ----------------------- | ----- | ------------------------------------------------------------------- |
-| `midnight`               | dark  | Catppuccin Mocha. Violet on deep indigo, drifting orbs               |
-| `tokyo`                  | dark  | Tokyo Night. Neon cyan over a wireframe grid                         |
-| `nord`                   | dark  | Arctic frost blue on polar slate, with slow contour waves            |
-| `dracula`                | dark  | Purple and hot pink over charcoal, lit by a gradient mesh            |
-| `gruvbox`                | dark  | Warm amber and moss on retro brown, hatched like graph paper         |
-| `rosepine`               | dark  | Rosé Pine. Muted iris and gold on plum, under a slow aurora          |
-| `forest`                 | dark  | Everforest sage on deep pine, rippling in concentric rings           |
-| `onedarkpro`             | dark  | Atom's One Dark Pro. Muted blue-grey with cyan and violet accents    |
-| `catppuccin-frappe`      | dark  | Official Catppuccin Frappé. Muted mauve on soft slate blue           |
-| `catppuccin-macchiato`   | dark  | Official Catppuccin Macchiato. Balanced mauve on deep indigo         |
-| `catppuccin-mocha`       | dark  | Official Catppuccin Mocha. Full-strength mauve on the darkest base   |
-| `neon`                   | dark  | Electric cyan and magenta on true black, raked by light beams        |
-| `daylight`               | light | Catppuccin Latte, contrast-tuned for a projector. Dot matrix         |
-| `arctic`                 | light | Nord inverted. Frost blue on cool paper, with contour waves          |
-| `solarized`              | light | The classic low-glare cream, paired with Lora for long prose         |
-| `paper`                  | light | Crimson serif on warm cream. Editorial, print-first, very legible    |
-| `rosequartz`             | light | Rosé Pine Dawn. Blush and iris on linen, with soft orbs              |
-| `swiss`                  | light | Black on white, one red. Heavy grotesk, tight tracking, hard grid    |
-| `catppuccin-latte`       | light | Official Catppuccin Latte. Warm mauve on soft cream                  |
+| id                | mood  | what it is                                            |
+| ----------------- | ----- | ------------------------------------------------------ |
+| `maxx-mellow`      | dark  | Low-contrast, warm-muted. The primary identity, drifting orbs |
+| `maxx-mellow-dawn` | light | The mellow palette re-tuned for daylight, not inverted  |
 
 ```bash
-deckrun slides.md --theme paper
+deckrun slides.md --theme maxx-mellow-dawn
 deckrun --list-themes
 ```
 
-`dark` and `light` are kept as aliases for `midnight` and `daylight`, so older
-commands and scripts keep working. So are `mocha`, `latte`, `tokyo-night`,
-`rose-pine`, and `rose-quartz`.
+`dark` and `light` are kept as aliases for `maxx-mellow` and `maxx-mellow-dawn`,
+so older commands and scripts keep working. So are `mellow` and `dawn`.
 
 In a file-backed deck the theme is baked into the page at launch, so switching
 means restarting with a different flag. In the editor it is live: `Cmd Shift L`
@@ -616,7 +599,7 @@ the PDF you export.
 Every theme names one of ten backdrop patterns, drawn behind the slides in the
 theme's own accent colors and drifting slowly enough to read as depth rather
 than as motion: `orbs`, `grid`, `dots`, `topo`, `beams`, `rings`, `waves`,
-`mesh`, `aurora`, and `none`.
+`mesh`, `aurora`, and `none`. Maxx Mellow uses `orbs`.
 
 The whole backdrop is CSS custom properties and gradients — no canvas, no
 images, no JavaScript — so it survives into the PDF, where it is re-attached to
@@ -635,16 +618,14 @@ and they are chosen **separately** — a serif heading over a sans body, or the
 reverse, is a setting rather than a fork:
 
 ```bash
-deckrun slides.md --theme tokyo --head-font playfair --body-font lora
+deckrun slides.md --head-font geist --body-font newsreader
 deckrun slides.md --body-font newsreader     # heading stays the theme's
 deckrun --list-fonts
 ```
 
-Twenty faces, grouped sans, serif, and mono: `inter`, `spaceGrotesk`, `sora`,
-`manrope`, `figtree`, `outfit`, `archivo`, `syne`, `bricolage`, `workSans`,
-`plexSans`, `fraunces`, `playfair`, `newsreader`, `lora`, `plexMono`,
-`jetbrains`, `firaCode`, `spaceMono`, `sourceCodePro`. Their human names work
-too, so `--head-font "Playfair Display"` is the same as `--head-font playfair`.
+Three faces, grouped sans, serif, and mono: `geist`, `newsreader`, `plexMono`.
+Their human names work too, so `--head-font "IBM Plex Mono"` is the same as
+`--head-font plexMono`.
 
 The monospace face is not overridable on purpose: code wants the face the
 palette's syntax highlighting was chosen against.
@@ -664,26 +645,16 @@ present and the PDF you export.
 
 ### Templates and transitions
 
-Templates compose with themes. A theme owns color and type; a template owns
-spacing, alignment, rules, image treatment, and the overall reading rhythm:
+A template owns spacing, alignment, rules, image treatment, and the overall
+reading rhythm. `minimal` is the only one: quiet surfaces, wider margins,
+fewer decorative treatments.
 
-| id          | composition                                                        |
-| ----------- | ------------------------------------------------------------------ |
-| `classic`   | The original balanced deckrun layout                              |
-| `minimal`   | Quiet surfaces, wider margins, fewer decorative treatments        |
-| `editorial` | Strong rules and magazine-like reading rhythm                     |
-| `spotlight` | Centered, high-impact composition for concise keynote slides       |
-
-Pick one on the editor start screen or switch it later from the `template`
-menu. Switching only changes the root `data-template` attribute and CSS, so an
-existing deck transforms instantly and its Markdown is untouched.
-
-The same menu carries five independent transitions: `slide`, `fade`, `zoom`,
-`lift`, and `none`. `prefers-reduced-motion` suppresses their spatial motion,
+The `template` menu also carries three independent transitions: `slide`,
+`fade`, and `none`. `prefers-reduced-motion` suppresses their spatial motion,
 and print/PDF disables them entirely.
 
 ```bash
-deckrun slides.md --template spotlight --transition zoom
+deckrun slides.md --transition fade
 deckrun --list-templates
 deckrun --list-transitions
 ```
@@ -713,7 +684,8 @@ An entry is four things:
 - **`roles`** — which three of those colors lead. `accent` carries h1, the
   caret, focus rings, and every piece of chrome; `accent2` carries h2 and
   links; `accent3` carries h3. Point them at any neutral or accent key — that
-  is how `nord` leads with frost blue while `gruvbox` leads with amber.
+  is how `maxx-mellow` leads with lavender while its dawn companion re-tunes
+  the same hue for daylight.
 - **`type`** — a display face, a body face, a mono face, and the weight,
   tracking, and casing the display face wants. Faces come from the `FONTS`
   catalog at the top of the file; add an entry there to use a new one.
@@ -813,7 +785,7 @@ Press `C` and the same canvas paints itself opaque over the slide: a blank board
 
 Select text — in the editor's preview, in a presented deck, or in a presented HTML doc — and a small bar appears with `highlight` and `highlight + comment`. Click a highlight to edit its comment or remove it; one that carries a comment gets a dot after it and shows the comment on hover.
 
-- **The pen is not a theme colour.** A highlight is marker yellow with its own dark ink on all fourteen palettes, and a commented one is marker cyan. A tint of the accent would read as part of the design; the point of a highlight is that you can find it across a room, on a dark theme or a light one. Syntax colouring gives way to the ink inside a mark, so highlighted code stays readable.
+- **The pen is not a theme colour.** A highlight is marker yellow with its own dark ink on either palette, and a commented one is marker cyan. A tint of the accent would read as part of the design; the point of a highlight is that you can find it across a room, on a dark theme or a light one. Syntax colouring gives way to the ink inside a mark, so highlighted code stays readable.
 - **They are session state, nothing more.** Highlights live in the browser session. They survive a reload and follow you into the tab `present` opens, and the moment that tab or the browser closes they are gone. Nothing reaches disk, the server, or `localStorage`, and the first time you make one the editor says so.
 - **The editor and the projector share them.** Highlight while writing and the marks are already on the slides when you present, on the right slide and with their comments intact. Both tabs stay in step for as long as they are open.
 - **They are anchored to the text, not to a position.** Edit the paragraph above a highlight and it stays put. Delete the sentence it was on and it quietly drops out rather than landing somewhere wrong.
@@ -843,10 +815,9 @@ A deck run straight from a file has no editor to follow it; present it through t
 
 ## Visual design
 
-- Terminal aesthetics throughout, set in IBM Plex Mono with a blinking mauve cursor in the top right corner.
+- Terminal aesthetics throughout, set in IBM Plex Mono, with no borders or shadows — surfaces are told apart by background contrast alone.
 - Direction-aware transitions. Slides slide in from the right going forward and from the left going back, over 380ms.
 - A HUD at the bottom with a gradient progress bar and a current-slide counter.
-- Three pixel pets, picked at random from [vscode-pets](https://github.com/tonybaloney/vscode-pets) and scattered along the bottom edge, at least 100 pixels apart.
 - A keyboard hint that appears on load and fades after four seconds.
 - A footer tool strip for the laser pointer, pen, blank canvas, blackout, and the controls overlay.
 
@@ -857,7 +828,7 @@ From the editor, press `Cmd Shift S` or pick PDF from the `export` menu, and a f
 - `@page` sets the page box to 13.333in by 7.5in with no margins, so every slide is one full-bleed 16:9 page. There is no orientation to choose.
 - `print-color-adjust: exact` keeps the theme, its backdrop, the code block surfaces, the table fills, and background images, whether or not "Background graphics" is ticked in the dialog.
 - Slides are sized in absolute units for print. Viewport units resolve against the page box in paged media, which is why a deck laid out in `vw` and `vh` came out as clipped portrait pages.
-- The HUD, arrows, overview, cursor, pets, keyboard hint, fullscreen prompt, annotation canvas, laser pointer, blackout, and controls overlay are all hidden.
+- The HUD, arrows, overview, keyboard hint, fullscreen prompt, annotation canvas, laser pointer, blackout, and controls overlay are all hidden.
 - Speaker notes are stripped at parse time, so they never reach the PDF.
 - Incremental fragments are fully revealed, so printed and exported slides never omit content.
 
@@ -872,9 +843,9 @@ Loading any presented deck with `&print=1` on its URL opens the print dialog onc
 - If the requested port is taken, the server falls back to a random free port and prints the URL it settled on.
 
 KaTeX and Mermaid are served from the copies installed with deckrun, which
-keeps live preview and PDF rendering independent of the network. Google Fonts,
-Highlight.js, and the pet sprites still load from CDNs, so a first run needs
-network access for those visual extras.
+keeps live preview and PDF rendering independent of the network. Google Fonts
+and Highlight.js still load from CDNs, so a first run needs network access
+for those visual extras.
 
 ## Generating decks and docs with Claude Code
 
@@ -996,7 +967,7 @@ deckrun examples/example-1.md
 deckrun
 
 # Open the technical talk in light theme on port 3000
-deckrun examples/example-2.md -p 3000 --theme solarized
+deckrun examples/example-2.md -p 3000 --theme maxx-mellow-dawn
 
 # Present fullscreen on the first key or click, without opening a browser
 deckrun examples/example-1.md --fullscreen --no-open

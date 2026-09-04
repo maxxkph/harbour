@@ -108,16 +108,15 @@ body.is-grid #presentation {
 .pv-thumb {
   position: relative;
   aspect-ratio: 16 / 9;
-  border: 1px solid var(--surface0);
   border-radius: 12px;
   overflow: hidden;
   background: var(--base);
   cursor: pointer;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: background 0.15s ease, transform 0.15s ease;
 }
 
-.pv-thumb:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow-md); }
-.pv-thumb.is-current { border-color: var(--accent-2); box-shadow: 0 0 0 1px var(--accent-2); }
+.pv-thumb:hover { background: color-mix(in srgb, var(--accent) 10%, var(--base)); transform: translateY(-3px); }
+.pv-thumb.is-current { background: color-mix(in srgb, var(--accent-2) 16%, var(--base)); }
 
 .pv-thumb__inner {
   position: absolute;

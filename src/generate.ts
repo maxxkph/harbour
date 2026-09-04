@@ -388,8 +388,7 @@ html, body {
 }
 
 .slide__content ul ul > li::before {
-  background: transparent;
-  border: 1.5px solid var(--accent-3);
+  background: var(--accent-3);
 }
 
 .slide__content ul ul,
@@ -446,7 +445,6 @@ html, body {
   color: var(--accent-3);
   border-radius: 5px;
   padding: 0.16em 0.42em;
-  border: 1px solid var(--hairline);
   letter-spacing: 0;
 }
 
@@ -456,8 +454,7 @@ html, body {
   padding: 0.78em 1.25em 0.78em 1.7em;
   margin: 1.2rem 0;
   background: var(--accent-soft);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 10px 10px 0;
+  border-radius: 10px;
   color: var(--subtext1);
   font-size: clamp(1rem, 1.5vw, 1.3rem);
 }
@@ -488,12 +485,10 @@ html, body {
   width: 100%;
   margin: 1.2rem 0;
   font-size: clamp(0.85rem, 1.2vw, 1.05rem);
-  /* Rules, not boxes: a grid of borders fights the text for attention. */
-  border-bottom: 1px solid var(--hairline);
 }
 
 .slide__content th {
-  background: transparent;
+  background: var(--surface-soft);
   color: var(--accent);
   font-family: var(--font-display);
   font-weight: 600;
@@ -502,14 +497,10 @@ html, body {
   text-transform: uppercase;
   padding: 0.5rem 1rem;
   text-align: left;
-  border: none;
-  border-bottom: 2px solid var(--accent-line);
 }
 
 .slide__content td {
   padding: 0.6rem 1rem;
-  border: none;
-  border-bottom: 1px solid var(--hairline);
   color: var(--subtext1);
 }
 
@@ -572,9 +563,7 @@ html, body {
   display: inline-block;
   font-family: var(--font-mono);
   font-size: 0.8em;
-  background: var(--surface0);
-  border: 1px solid var(--surface2);
-  border-bottom-width: 2px;
+  background: var(--surface2);
   border-radius: 6px;
   padding: 0.12em 0.45em;
   color: var(--text);
@@ -598,7 +587,7 @@ html, body {
   background: linear-gradient(90deg, var(--accent-line), var(--hairline) 40%, transparent);
 }`;
 
-/** Presentation chrome: HUD, arrows, overview, pets, cursor, print rules. */
+/** Presentation chrome: HUD, arrows, overview, print rules. */
 const CHROME_CSS = `/* ── HUD (progress + counter) ────────────────────────────────────────── */
 #hud {
   font-family: var(--font-mono);
@@ -670,7 +659,6 @@ const CHROME_CSS = `/* ── HUD (progress + counter) ────────�
 
 .overview-thumb {
   background: var(--base);
-  border: 1px solid var(--surface0);
   border-radius: 12px;
   cursor: pointer;
   overflow: hidden;
@@ -679,11 +667,11 @@ const CHROME_CSS = `/* ── HUD (progress + counter) ────────�
   align-items: center;
   justify-content: center;
   position: relative;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.overview-thumb:hover { border-color: var(--accent); transform: translateY(-3px) scale(1.02); box-shadow: var(--shadow-md); }
-.overview-thumb.is-current { border-color: var(--accent-2); box-shadow: 0 0 0 1px var(--accent-2); }
+.overview-thumb:hover { background: color-mix(in srgb, var(--accent) 10%, var(--base)); transform: translateY(-3px) scale(1.02); }
+.overview-thumb.is-current { background: color-mix(in srgb, var(--accent-2) 16%, var(--base)); }
 
 .overview-thumb__number {
   position: absolute;
@@ -723,42 +711,6 @@ const CHROME_CSS = `/* ── HUD (progress + counter) ────────�
 
 #kbd-hint.hidden { opacity: 0; }
 
-/* ── Pets ─────────────────────────────────────────────────────────────── */
-.pet {
-  position: fixed;
-  z-index: 50;
-  pointer-events: none;
-  image-rendering: pixelated;
-}
-
-@media print {
-  .pet { display: none !important; }
-}
-
-/* ── Blinking cursor ──────────────────────────────────────────────────── */
-/* Parked where an h1's cap height sits, so it reads as the title's caret. */
-#cursor {
-  position: fixed;
-  top: var(--slide-pad-y);
-  right: var(--slide-pad-x);
-  width: 12px;
-  height: clamp(2rem, 4.5vw, 3.4rem);
-  background: var(--accent);
-  box-shadow: 0 0 22px var(--glow);
-  z-index: 100;
-  pointer-events: none;
-  animation: cursor-blink 1.1s step-start infinite;
-}
-
-@keyframes cursor-blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
-@media print {
-  #cursor { display: none !important; }
-}
-
 /* ── Fullscreen hint ──────────────────────────────────────────────────── */
 #fs-hint {
   position: fixed;
@@ -780,7 +732,6 @@ const CHROME_CSS = `/* ── HUD (progress + counter) ────────�
   color: var(--subtext1);
   font-size: 0.9rem;
   letter-spacing: 0.06em;
-  border: 1px solid var(--surface1);
   border-radius: 8px;
   padding: 1.6rem 2.8rem;
   background: var(--base);
@@ -788,8 +739,7 @@ const CHROME_CSS = `/* ── HUD (progress + counter) ────────�
 
 #fs-hint__inner kbd {
   display: inline-block;
-  background: var(--surface0);
-  border: 1px solid var(--surface1);
+  background: var(--surface1);
   border-radius: 5px;
   padding: 0.1em 0.5em;
   font-family: var(--font-mono);
@@ -869,7 +819,7 @@ const CHROME_CSS = `/* ── HUD (progress + counter) ────────�
   .slide__content img { max-height: 4in !important; }
   .slide__content iframe, .slide__content video { max-height: 4in !important; }
 
-  #hud, .nav-arrow, #overview, #kbd-hint, #cursor, #fs-hint, .pet,
+  #hud, .nav-arrow, #overview, #kbd-hint, #fs-hint,
   #board, #laser, #blackout, #help, #themes {
     display: none !important;
   }
@@ -906,7 +856,7 @@ const PRESENTER_CSS = `/* ── HUD tool strip ──────────�
   align-items: center;
   gap: 0.34rem;
   background: transparent;
-  border: 1px solid transparent;
+  border: none;
   border-radius: 6px;
   padding: 0.14rem 0.44rem;
   font: inherit;
@@ -914,13 +864,12 @@ const PRESENTER_CSS = `/* ── HUD tool strip ──────────�
   letter-spacing: 0.07em;
   color: var(--overlay0);
   cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  transition: color 0.15s ease, background 0.15s ease;
 }
 
-.hud-btn:hover { color: var(--text); border-color: var(--surface1); }
+.hud-btn:hover { color: var(--text); background: var(--surface-soft); }
 .hud-btn.is-on {
   color: var(--accent);
-  border-color: var(--accent-line);
   background: var(--accent-soft);
 }
 
@@ -929,7 +878,7 @@ const PRESENTER_CSS = `/* ── HUD tool strip ──────────�
   font-size: 0.58rem;
   color: inherit;
   opacity: 0.7;
-  border: 1px solid currentColor;
+  background: color-mix(in srgb, currentColor 22%, transparent);
   border-radius: 3px;
   padding: 0 0.28em;
 }
@@ -957,14 +906,14 @@ const PRESENTER_CSS = `/* ── HUD tool strip ──────────�
   width: 13px;
   height: 13px;
   padding: 0;
+  border: none;
   border-radius: 50%;
-  border: 1px solid var(--surface2);
   cursor: pointer;
-  transition: transform 0.12s ease, border-color 0.12s ease;
+  transition: transform 0.12s ease;
 }
 
 .swatch:hover { transform: scale(1.2); }
-.swatch.is-on { transform: scale(1.35); border-color: var(--text); }
+.swatch.is-on { transform: scale(1.35); }
 
 #pen-width {
   font-size: 0.6rem;
@@ -1085,9 +1034,7 @@ body.laser-on, body.laser-on #board.is-drawing { cursor: none; }
   max-height: 84vh;
   margin: 6vh auto 0;
   background: var(--mantle);
-  border: 1px solid var(--surface1);
   border-radius: 14px;
-  box-shadow: var(--shadow-lg);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1099,7 +1046,6 @@ body.laser-on, body.laser-on #board.is-drawing { cursor: none; }
   justify-content: space-between;
   gap: 0.8rem;
   padding: 1rem 1.4rem;
-  border-bottom: 1px solid var(--surface0);
   background: var(--mantle);
 }
 
@@ -1121,8 +1067,7 @@ body.laser-on, body.laser-on #board.is-drawing { cursor: none; }
   display: inline-block;
   font: inherit;
   font-size: 0.6rem;
-  background: var(--surface0);
-  border: 1px solid var(--surface1);
+  background: var(--surface1);
   border-radius: 3px;
   padding: 0.05em 0.35em;
   color: var(--lavender);
@@ -1134,11 +1079,10 @@ body.laser-on, body.laser-on #board.is-drawing { cursor: none; }
   text-decoration: none;
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
-  background: var(--surface0);
-  border: 1px solid var(--surface1);
-  transition: color 0.15s ease, border-color 0.15s ease;
+  background: var(--surface1);
+  transition: color 0.15s ease, background 0.15s ease;
 }
-.th-head__brand:hover { color: var(--accent); border-color: var(--accent-line); }
+.th-head__brand:hover { color: var(--accent); background: var(--accent-soft); }
 
 #themes__close {
   background: transparent;
@@ -1177,29 +1121,27 @@ body.laser-on, body.laser-on #board.is-drawing { cursor: none; }
   flex-direction: column;
   padding: 0;
   overflow: hidden;
-  border: 1px solid var(--surface1);
+  border: none;
   border-radius: 10px;
   background: var(--base);
   cursor: pointer;
   text-align: left;
   font-family: inherit;
-  transition: border-color 0.14s ease, transform 0.14s ease, box-shadow 0.14s ease;
+  transition: background 0.14s ease, transform 0.14s ease;
 }
 
 .th-card:hover, .th-card.is-sel {
-  border-color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  background: color-mix(in srgb, var(--accent) 8%, var(--base));
 }
 
-.th-card.is-current { box-shadow: inset 0 0 0 1px var(--accent); }
+.th-card.is-current { background: color-mix(in srgb, var(--accent) 16%, var(--base)); }
 
 .th-thumb {
   position: relative;
   aspect-ratio: 16 / 9;
   padding: 11px 12px;
   overflow: hidden;
-  border-bottom: 1px solid var(--surface0);
 }
 
 .th-thumb__glow {
@@ -1255,7 +1197,6 @@ body.laser-on, body.laser-on #board.is-drawing { cursor: none; }
   justify-content: space-between;
   gap: 1rem;
   padding: 0.8rem 1.4rem;
-  border-top: 1px solid var(--surface0);
   background: var(--mantle);
   font-size: 0.65rem;
   color: var(--overlay1);
@@ -1296,9 +1237,7 @@ body.laser-on, body.laser-on #board.is-drawing { cursor: none; }
   margin: 7vh auto 0;
   padding: 1.4rem 1.7rem 1.7rem;
   background: var(--mantle);
-  border: 1px solid var(--surface1);
   border-radius: 12px;
-  box-shadow: var(--shadow-lg);
 }
 
 #help__head {
@@ -1324,9 +1263,7 @@ body.laser-on, body.laser-on #board.is-drawing { cursor: none; }
   display: inline-block;
   font: inherit;
   font-size: 0.63rem;
-  background: var(--surface0);
-  border: 1px solid var(--surface1);
-  border-bottom-width: 2px;
+  background: var(--surface1);
   border-radius: 4px;
   padding: 0.05em 0.4em;
   color: var(--lavender);
@@ -1376,7 +1313,6 @@ body.laser-on, body.laser-on #board.is-drawing { cursor: none; }
 #help__foot {
   margin-top: 1.2rem;
   padding-top: 0.8rem;
-  border-top: 1px solid var(--surface0);
   font-size: 0.66rem;
   color: var(--overlay1);
   line-height: 1.7;
@@ -1534,8 +1470,6 @@ ${slideHtml}
 
 <button class="nav-arrow nav-arrow--prev" id="btn-prev" title="Previous (←)">&#8592;</button>
 <button class="nav-arrow nav-arrow--next" id="btn-next" title="Next (→)">&#8594;</button>
-
-<div id="cursor"></div>
 
 <div id="overview" class="hidden"></div>
 
@@ -2068,7 +2002,7 @@ ${HIGHLIGHT_RUNTIME}
   const hljsMap = themeBootstrap.hljsMap || {};
   const decorMap = themeBootstrap.decorMap || {};
   const THEME_DATA = Object.fromEntries(themeList.map(function (t) { return [t.id, t]; }));
-  let activeTheme = document.documentElement.dataset.theme || 'nord';
+  let activeTheme = document.documentElement.dataset.theme || 'maxx-mellow';
   let themeCommitted = activeTheme;
   let themeSel = 0;
   let themeCards = [];
@@ -2539,50 +2473,6 @@ ${HIGHLIGHT_RUNTIME}
 
   // ── Hint auto-hide ────────────────────────────────────────────────────
   setTimeout(() => { elHint.classList.add('hidden'); }, 4000);
-
-  // ── Pets ──────────────────────────────────────────────────────────────
-  (function spawnPets() {
-    const petUrls = [
-      'https://github.com/tonybaloney/vscode-pets/blob/main/media/turtle/orange_with_ball_8fps.gif?raw=true',
-      'https://github.com/tonybaloney/vscode-pets/blob/main/media/turtle/green_with_ball_8fps.gif?raw=true',
-      'https://github.com/tonybaloney/vscode-pets/blob/main/media/chicken/white_with_ball_8fps.gif?raw=true',
-      'https://github.com/tonybaloney/vscode-pets/blob/main/media/crab/red_with_ball_8fps.gif?raw=true',
-      'https://github.com/tonybaloney/vscode-pets/blob/main/media/dog/akita_with_ball_8fps.gif?raw=true',
-      'https://github.com/tonybaloney/vscode-pets/blob/main/media/dog/brown_with_ball_8fps.gif?raw=true',
-      'https://github.com/tonybaloney/vscode-pets/blob/main/media/fox/white_with_ball_8fps.gif?raw=true',
-    ];
-
-    const count = 3;
-    const minDist = 100;
-
-    // Shuffle and pick N unique pets
-    const shuffled = petUrls.slice().sort(() => Math.random() - 0.5);
-    const chosen = shuffled.slice(0, count);
-
-    // HUD: 2px progress bar + ~30px counter row. Pets sit just above that.
-    const hudHeight = 34;
-    const bottomOffset = hudHeight;
-
-    // Pick random x positions along the full width, min 100px apart
-    const xPositions = [];
-    let attempts = 0;
-    while (xPositions.length < count && attempts < 2000) {
-      attempts++;
-      const x = 20 + Math.random() * (window.innerWidth - 100);
-      const tooClose = xPositions.some(px => Math.abs(px - x) < minDist);
-      if (!tooClose) xPositions.push(x);
-    }
-
-    chosen.forEach(function(url, i) {
-      const img = document.createElement('img');
-      img.src = url;
-      img.className = 'pet';
-      img.style.left   = xPositions[i] + 'px';
-      img.style.bottom = bottomOffset + 'px';
-      img.style.top    = 'auto';
-      document.body.appendChild(img);
-    });
-  })();
 
   // ── Auto-fullscreen ───────────────────────────────────────────────────
   const fsHint = document.getElementById('fs-hint');
@@ -3057,7 +2947,7 @@ ${HIGHLIGHT_RUNTIME}
   const hljsMap = themeBootstrap.hljsMap || {};
   const decorMap = themeBootstrap.decorMap || {};
   const THEME_DATA = Object.fromEntries(themeList.map(function (t) { return [t.id, t]; }));
-  let activeTheme = document.documentElement.dataset.theme || 'nord';
+  let activeTheme = document.documentElement.dataset.theme || 'maxx-mellow';
   let themeCommitted = activeTheme;
   let themeSel = 0;
   let themeCards = [];

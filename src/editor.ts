@@ -127,7 +127,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   flex: 0 0 auto;
   padding: 7px 12px;
   background: var(--mantle);
-  border-bottom: 1px solid var(--surface0);
 }
 
 /* The right-hand controls wrap as a block and stay right-aligned, so a narrow
@@ -194,12 +193,12 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   font: inherit;
   color: var(--subtext1);
   background: transparent;
-  border: 1px solid transparent;
+  border: 0;
   border-radius: 6px;
 }
 
-#docname:hover { border-color: var(--surface0); }
-#docname:focus { outline: none; border-color: var(--accent); color: var(--text); }
+#docname:hover { background: var(--surface0); }
+#docname:focus { outline: none; background: var(--surface0); color: var(--text); }
 
 /* Both of these sat in the top bar and were the loudest things in it. They
    belong with the other counters, at the bottom. */
@@ -221,13 +220,13 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   padding: 0 11px;
   font-size: 12px;
   color: var(--subtext1);
-  border: 1px solid var(--surface0);
+  background: var(--surface0);
   border-radius: 7px;
   white-space: nowrap;
-  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  transition: color 0.15s ease, background 0.15s ease;
 }
 
-.btn:hover { border-color: var(--accent); color: var(--text); background: var(--accent-soft); }
+.btn:hover { color: var(--text); background: var(--accent-soft); }
 .btn kbd { font: inherit; font-size: 10px; color: var(--overlay0); }
 
 /* ── Font menu ────────────────────────────────────────────────────────── */
@@ -235,7 +234,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 #ff-cols { display: flex; }
 .ff-col { flex: 1 1 0; min-width: 0; padding: 7px; }
-.ff-col + .ff-col { border-left: 1px solid var(--surface0); }
 
 .ff-col__title {
   padding: 4px 8px 7px;
@@ -252,12 +250,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   width: 100%;
   padding: 5px 8px;
   border-radius: 6px;
-  border-left: 2px solid transparent;
   text-align: left;
 }
 
-.ff-row:hover { background: var(--surface-soft); border-left-color: var(--accent); }
-.ff-row.is-on { border-left-color: var(--accent); }
+.ff-row:hover { background: var(--surface-soft); }
+.ff-row.is-on { background: var(--accent-soft); }
 .ff-row.is-on .ff-row__name { color: var(--accent); }
 
 /* Each row is set in the face it offers, which is the only honest preview. */
@@ -275,7 +272,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 .ff-foot {
   padding: 8px 14px;
-  border-top: 1px solid var(--surface0);
   font-size: 10px;
   color: var(--overlay0);
 }
@@ -414,7 +410,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px dashed var(--accent);
   border-radius: 12px;
   background: var(--accent-soft);
   color: var(--accent);
@@ -430,7 +425,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   height: 34px;
   flex: 0 0 34px;
   padding: 0 12px;
-  border-bottom: 1px solid var(--surface0);
   font-size: 11px;
   color: var(--overlay1);
 }
@@ -440,7 +434,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   align-items: center;
   gap: 5px;
   padding: 2px 7px;
-  border: 1px solid var(--yellow);
   border-radius: 999px;
   color: var(--yellow);
   background: var(--surface-soft);
@@ -454,7 +447,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 /* ── Dropdown menu ────────────────────────────────────────────────────── */
 .menu { position: relative; display: inline-flex; }
 .menu__chev { font-size: 9px; color: var(--overlay0); }
-.menu.is-open > .btn { border-color: var(--accent); color: var(--text); background: var(--accent-soft); }
+.menu.is-open > .btn { color: var(--text); background: var(--accent-soft); }
 
 .menu__pop {
   position: absolute;
@@ -466,9 +459,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   display: none;
   flex-direction: column;
   background: var(--mantle);
-  border: 1px solid var(--surface1);
   border-radius: 10px;
-  box-shadow: var(--shadow-lg);
 }
 
 .menu.is-open .menu__pop { display: flex; }
@@ -479,13 +470,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   gap: 10px;
   padding: 8px 10px;
   border-radius: 7px;
-  border-left: 2px solid transparent;
   text-align: left;
 }
 
 .menu__pop button:hover, .menu__pop button.is-sel {
   background: var(--surface-soft);
-  border-left-color: var(--accent);
 }
 
 /* A fixed name column keeps the three rows on one grid. */
@@ -501,7 +490,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 
 .menu__pop--template { min-width: 390px; padding: 7px; }
-.menu-section + .menu-section { margin-top: 6px; padding-top: 7px; border-top: 1px solid var(--surface0); }
+.menu-section + .menu-section { margin-top: 6px; padding-top: 7px; }
 .menu-section__title {
   padding: 2px 10px 5px;
   font-size: 9px;
@@ -511,13 +500,12 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 .menu__pop--template button.is-on {
   background: var(--accent-soft);
-  border-left-color: var(--accent);
 }
 .menu__pop--template button.is-on .menu__name { color: var(--accent); }
 
-.seg { display: flex; border: 1px solid var(--surface0); border-radius: 7px; overflow: hidden; }
+.seg { display: flex; background: var(--surface0); border-radius: 7px; overflow: hidden; }
 .seg button { font-size: 11px; padding: 3px 10px; color: var(--overlay1); }
-.seg button.is-on { background: var(--surface0); color: var(--text); }
+.seg button.is-on { background: var(--surface2); color: var(--text); }
 
 .step { font-size: 13px; color: var(--overlay1); padding: 0 5px; }
 .step:hover { color: var(--text); }
@@ -550,8 +538,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 #frame-box.is-single {
   border-radius: 10px;
   overflow: hidden;
-  border: 1px solid var(--surface0);
-  box-shadow: var(--shadow-lg);
 }
 
 #notes {
@@ -559,7 +545,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   max-height: 24%;
   overflow: auto;
   padding: 9px 12px 11px;
-  border-top: 1px solid var(--surface0);
   background: var(--mantle);
   display: none;
 }
@@ -583,7 +568,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   flex: 0 0 28px;
   padding: 0 12px;
   background: var(--mantle);
-  border-top: 1px solid var(--surface0);
   font-size: 11px;
   color: var(--overlay0);
 }
@@ -603,14 +587,14 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 #follow-chip {
   flex: 0 0 auto;
-  border: 1px solid var(--surface0);
+  background: var(--surface0);
   border-radius: 5px;
   padding: 1px 7px;
   color: var(--accent2);
   cursor: pointer;
   user-select: none;
 }
-#follow-chip:hover { border-color: var(--accent2); }
+#follow-chip:hover { background: var(--surface1); }
 #follow-chip b { font-weight: 600; }
 #follow-chip.hidden { display: none; }
 
@@ -624,9 +608,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   width: min(690px, 92vw);
   margin: 9vh auto 0;
   background: var(--mantle);
-  border: 1px solid var(--surface1);
   border-radius: 14px;
-  box-shadow: var(--shadow-lg);
   overflow: hidden;
 }
 
@@ -638,7 +620,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   color: var(--text);
   background: transparent;
   border: 0;
-  border-bottom: 1px solid var(--surface0);
   outline: none;
 }
 
@@ -656,11 +637,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 #lib-head button {
   font-size: 11px;
   color: var(--subtext0);
-  border: 1px solid var(--surface1);
+  background: var(--surface1);
   border-radius: 6px;
   padding: 4px 9px;
 }
-#lib-head button:hover { border-color: var(--accent); color: var(--text); background: var(--accent-soft); }
+#lib-head button:hover { color: var(--text); background: var(--accent-soft); }
 
 .lib-row {
   display: flex;
@@ -668,11 +649,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   gap: 12px;
   padding: 9px 12px;
   border-radius: 8px;
-  border-left: 2px solid transparent;
   cursor: pointer;
 }
 
-.lib-row.is-sel { background: var(--surface-soft); border-left-color: var(--accent); }
+.lib-row.is-sel { background: var(--surface-soft); }
 .lib-row.is-current .lib-row__name { color: var(--accent-2); }
 .lib-row__main { flex: 1 1 auto; min-width: 0; }
 .lib-row__name {
@@ -688,12 +668,12 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .lib-row__acts button {
   font-size: 10px;
   color: var(--overlay1);
-  border: 1px solid var(--surface1);
+  background: var(--surface1);
   border-radius: 5px;
   padding: 3px 7px;
 }
-.lib-row__acts button:hover { border-color: var(--accent); color: var(--text); }
-.lib-row__acts button.danger:hover { border-color: var(--red); color: var(--red); }
+.lib-row__acts button:hover { color: var(--text); background: var(--accent-soft); }
+.lib-row__acts button.danger:hover { color: var(--red); background: var(--surface1); }
 
 .pal-group {
   padding: 11px 12px 5px;
@@ -709,11 +689,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   gap: 12px;
   padding: 8px 12px;
   border-radius: 8px;
-  border-left: 2px solid transparent;
   cursor: pointer;
 }
 
-.pal-row.is-sel { background: var(--surface-soft); border-left-color: var(--accent); }
+.pal-row.is-sel { background: var(--surface-soft); }
 .pal-row__main { flex: 1 1 auto; min-width: 0; }
 .pal-row__label { color: var(--text); font-size: 12.5px; }
 .pal-row__hint { color: var(--overlay1); font-size: 11px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -734,7 +713,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   display: flex;
   gap: 14px;
   padding: 8px 14px;
-  border-top: 1px solid var(--surface0);
   font-size: 10px;
   color: var(--overlay0);
 }
@@ -749,8 +727,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   display: flex;
   flex-direction: column;
   background: var(--mantle);
-  border-left: 1px solid var(--surface1);
-  box-shadow: -22px 0 70px var(--scrim);
 }
 
 #guide-head {
@@ -758,7 +734,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   align-items: center;
   gap: 10px;
   padding: 14px 16px;
-  border-bottom: 1px solid var(--surface0);
 }
 #guide-head h2 { font-size: 14px; font-weight: 600; color: var(--text); }
 #guide-head p { font-size: 11px; color: var(--overlay1); margin-top: 3px; }
@@ -774,14 +749,13 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 
 .gcard {
-  border: 1px solid var(--surface0);
   border-radius: 10px;
   padding: 11px 12px;
   margin-bottom: 8px;
   background: var(--base);
-  transition: border-color 0.15s ease;
+  transition: background 0.15s ease;
 }
-.gcard:hover { border-color: var(--surface2); }
+.gcard:hover { background: var(--surface0); }
 .gcard__top { display: flex; align-items: baseline; gap: 10px; }
 .gcard__label { flex: 1 1 auto; color: var(--text); font-size: 12.5px; }
 .gcard__keys { font-size: 10px; color: var(--overlay0); }
@@ -791,7 +765,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   font-size: 11px;
   color: var(--green);
   background: var(--crust);
-  border: 1px solid var(--surface0);
   border-radius: 6px;
   padding: 7px 9px;
   overflow-x: auto;
@@ -801,11 +774,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   margin-top: 8px;
   font-size: 11px;
   color: var(--subtext0);
-  border: 1px solid var(--surface1);
+  background: var(--surface1);
   border-radius: 6px;
   padding: 4px 9px;
 }
-.gcard__ins:hover { border-color: var(--accent); color: var(--text); background: var(--accent-soft); }
+.gcard__ins:hover { color: var(--text); background: var(--accent-soft); }
 
 /* ── Theme picker ─────────────────────────────────────────────────────── */
 #themes { position: fixed; inset: 0; z-index: 44; display: none; }
@@ -816,9 +789,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   width: min(1120px, 95vw);
   margin: 5vh auto 0;
   background: var(--mantle);
-  border: 1px solid var(--surface1);
   border-radius: 16px;
-  box-shadow: var(--shadow-lg);
   overflow: hidden;
 }
 
@@ -827,7 +798,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   align-items: center;
   gap: 12px;
   padding: 14px 18px;
-  border-bottom: 1px solid var(--surface0);
   font-size: 13px;
   color: var(--text);
 }
@@ -837,7 +807,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   font: inherit;
   font-size: 10px;
   color: var(--subtext0);
-  border: 1px solid var(--surface1);
+  background: var(--surface1);
   border-radius: 3px;
   padding: 0 3px;
 }
@@ -845,11 +815,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 #th-head button {
   font-size: 11px;
   color: var(--subtext0);
-  border: 1px solid var(--surface1);
+  background: var(--surface1);
   border-radius: 6px;
   padding: 4px 9px;
 }
-#th-head button:hover { border-color: var(--accent); color: var(--text); background: var(--accent-soft); }
+#th-head button:hover { color: var(--text); background: var(--accent-soft); }
 
 #th-list { max-height: 76vh; overflow-y: auto; padding: 14px 16px 18px; }
 
@@ -874,21 +844,19 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   gap: 0;
   padding: 0;
   overflow: hidden;
-  border: 1px solid var(--surface1);
   border-radius: 12px;
   background: var(--base);
   cursor: pointer;
   text-align: left;
-  transition: border-color 0.14s ease, transform 0.14s ease, box-shadow 0.14s ease;
+  transition: background 0.14s ease, transform 0.14s ease;
 }
 
 .th-card:hover, .th-card.is-sel {
-  border-color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  background: color-mix(in srgb, var(--accent) 8%, var(--base));
 }
 
-.th-card.is-current { box-shadow: inset 0 0 0 1px var(--accent); }
+.th-card.is-current { background: color-mix(in srgb, var(--accent) 16%, var(--base)); }
 
 /* The thumbnail is a real slide in miniature: the theme's own background,
    its own accent, its own faces. Nothing about it is a stand-in. */
@@ -897,7 +865,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   aspect-ratio: 16 / 9;
   padding: 13px 14px;
   overflow: hidden;
-  border-bottom: 1px solid var(--surface0);
 }
 
 .th-thumb__glow {
@@ -968,25 +935,22 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   padding: 9px 12px;
   font-size: 12px;
   color: var(--subtext1);
-  background: var(--base);
-  border: 1px solid var(--surface1);
-  border-left: 2px solid var(--teal);
+  background: color-mix(in srgb, var(--teal) 12%, var(--base));
   border-radius: 9px;
-  box-shadow: var(--shadow-md);
   pointer-events: all;
   animation: rise 0.18s ease;
 }
 
-.toast--warn { border-left-color: var(--yellow); }
-.toast--err { border-left-color: var(--red); }
+.toast--warn { background: color-mix(in srgb, var(--yellow) 12%, var(--base)); }
+.toast--err { background: color-mix(in srgb, var(--red) 12%, var(--base)); }
 .toast button {
   font-size: 11px;
   color: var(--subtext0);
-  border: 1px solid var(--surface1);
+  background: var(--surface1);
   border-radius: 6px;
   padding: 3px 8px;
 }
-.toast button:hover { border-color: var(--accent); color: var(--text); }
+.toast button:hover { color: var(--text); background: var(--accent-soft); }
 
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
@@ -1052,9 +1016,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   margin: 12vh auto 0;
   padding: 26px 28px 22px;
   background: var(--mantle);
-  border: 1px solid var(--surface1);
   border-radius: 14px;
-  box-shadow: var(--shadow-lg);
 }
 
 #start-head { margin-bottom: 18px; }
@@ -1069,12 +1031,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   text-align: left;
   padding: 14px 16px;
   background: var(--base);
-  border: 1px solid var(--surface0);
   border-radius: 10px;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition: background 0.15s ease;
 }
 
-.start-card:hover { border-color: var(--accent); background: var(--accent-soft); }
+.start-card:hover { background: var(--accent-soft); }
 .start-card.is-disabled { opacity: 0.45; pointer-events: none; }
 
 .start-card__title { display: block; font-size: 13px; font-weight: 600; color: var(--text); }
@@ -1085,16 +1046,15 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   padding: 5px 10px;
   font-size: 11.5px;
   color: var(--subtext1);
-  border: 1px solid var(--surface1);
+  background: var(--surface1);
   border-radius: 6px;
   flex: none;
 }
-.start-card__acts button:hover { border-color: var(--accent); color: var(--text); }
+.start-card__acts button:hover { color: var(--text); background: var(--accent-soft); }
 
 .start-options {
   margin-top: 12px;
   padding-top: 11px;
-  border-top: 1px solid var(--surface0);
 }
 .start-options__row { display: flex; align-items: center; gap: 8px; margin-top: 7px; }
 .start-options__label {
@@ -1109,11 +1069,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   padding: 4px 8px;
   font-size: 10.5px;
   color: var(--subtext0);
-  border: 1px solid var(--surface1);
+  background: var(--surface1);
   border-radius: 6px;
 }
-.start-choice:hover { color: var(--text); border-color: var(--accent); }
-.start-choice.is-on { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+.start-choice:hover { color: var(--text); background: var(--accent-soft); }
+.start-choice.is-on { color: var(--accent); background: var(--accent-soft); }
 
 .start-card__url { display: flex; gap: 6px; flex: 1 1 auto; min-width: 0; }
 .start-card__url input {
@@ -1123,11 +1083,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   font-size: 11.5px;
   font-family: inherit;
   color: var(--text);
-  background: var(--mantle);
-  border: 1px solid var(--surface1);
+  background: var(--surface0);
+  border: 0;
   border-radius: 6px;
 }
-.start-card__url input:focus { border-color: var(--accent); outline: none; }
+.start-card__url input:focus { background: var(--surface1); outline: none; }
 .start-card__url button { flex: none; }
 
 /* ── Narrow screens ───────────────────────────────────────────────────── */
@@ -1599,7 +1559,7 @@ ${HIGHLIGHT_RUNTIME}
   TEMPLATES.forEach(function (item) { TEMPLATE_BY_ID[item.id] = item; });
 
   function pickTemplate(id) {
-    return TEMPLATE_BY_ID[id] ? id : (TEMPLATE_BY_ID[D.template] ? D.template : 'classic');
+    return TEMPLATE_BY_ID[id] ? id : (TEMPLATE_BY_ID[D.template] ? D.template : 'minimal');
   }
 
   var TRANSITIONS = D.transitions;
