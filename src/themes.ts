@@ -78,11 +78,12 @@ export function fontName(key: string): string {
 
 const SANS = "system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif";
 const SERIF = "Georgia, 'Times New Roman', serif";
-const MONO = "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+const MONO = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
 
 export const FONTS: Record<string, FontFace> = {
   geist:      { param: "Geist:wght@400;500;600;700;800",                      stack: `'Geist', ${SANS}`, kind: "sans" },
   newsreader: { param: "Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400", stack: `'Newsreader', ${SERIF}`, kind: "serif" },
+  fraunces:   { param: "Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400", stack: `'Fraunces', ${SERIF}`, kind: "serif" },
   plexMono:   { param: "IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400", stack: `'IBM Plex Mono', ${MONO}`, kind: "mono" },
 };
 
@@ -166,8 +167,6 @@ interface ThemeSpec {
   roles: Roles;
   type: TypeSpec;
   decor: DecorName;
-  /** Highlight.js stylesheet that pairs with the palette. */
-  hljs: string;
 }
 
 export interface Theme extends ThemeSpec {
@@ -175,8 +174,6 @@ export interface Theme extends ThemeSpec {
 }
 
 // ── The themes ────────────────────────────────────────────────────────────
-
-const HL = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/";
 
 const SPECS: Record<string, ThemeSpec> = {
   "maxx-mellow": {
@@ -197,7 +194,6 @@ const SPECS: Record<string, ThemeSpec> = {
     roles: { accent: "lavender", accent2: "blue", accent3: "teal" },
     type: { display: "geist", body: "geist", mono: "plexMono", weight: 600, tracking: "-0.015em" },
     decor: "orbs",
-    hljs: `${HL}atom-one-dark.min.css`,
   },
 
   "maxx-mellow-dawn": {
@@ -218,7 +214,6 @@ const SPECS: Record<string, ThemeSpec> = {
     roles: { accent: "lavender", accent2: "blue", accent3: "teal" },
     type: { display: "geist", body: "geist", mono: "plexMono", weight: 600, tracking: "-0.015em" },
     decor: "orbs",
-    hljs: `${HL}atom-one-light.min.css`,
   },
 };
 
@@ -297,7 +292,7 @@ export function themeSummaries(): ThemeSummary[] {
   });
 }
 
-/** One line per theme, for `deckrun --list-themes`. */
+/** One line per theme, for `harbour --list-themes`. */
 export function themeListing(): string[] {
   const pad = Math.max(...THEME_IDS.map((id) => id.length));
   return THEME_IDS.map((id) => {
@@ -404,18 +399,6 @@ export function themeSwitchableCss(): string {
   return blocks.join("\n\n");
 }
 
-/** Stylesheet URL for the Highlight.js theme that pairs with a palette. */
-export function hljsHref(theme: ThemeName): string {
-  return THEMES[resolveThemeName(theme)].hljs;
-}
-
-/** `{ midnight: "https://…", … }`, for the preview's runtime theme swap. */
-export function hljsMapJson(): string {
-  return JSON.stringify(
-    Object.fromEntries(THEME_IDS.map((id) => [id, THEMES[id].hljs]))
-  );
-}
-
 /** `{ midnight: "orbs", … }`, so a theme swap swaps its backdrop with it. */
 export function decorMapJson(): string {
   return JSON.stringify(
@@ -426,6 +409,30 @@ export function decorMapJson(): string {
 export function decorOf(theme: ThemeName): DecorName {
   return THEMES[resolveThemeName(theme)].decor;
 }
+
+// ── Syntax highlighting ───────────────────────────────────────────────────
+
+/**
+ * Highlight.js token colors, pulled straight from the active theme's own
+ * accent slots instead of a separate third-party stylesheet. A code block
+ * repaints with the rest of the deck on a theme switch, and never falls out
+ * of step with maxx-mellow's palette the way a generic Atom One theme would.
+ */
+export const HLJS_CSS = `/* ── Syntax highlighting ──────────────────────────────────────────────── */
+.hljs { color: var(--text); background: transparent; }
+.hljs-comment, .hljs-quote { color: var(--subtext0); font-style: italic; }
+.hljs-doctag, .hljs-formula, .hljs-keyword { color: var(--lavender); }
+.hljs-deletion, .hljs-name, .hljs-section, .hljs-selector-tag, .hljs-subst { color: var(--red); }
+.hljs-literal { color: var(--sky); }
+.hljs-addition, .hljs-attribute, .hljs-meta .hljs-string, .hljs-regexp, .hljs-string { color: var(--green); }
+.hljs-attr, .hljs-number, .hljs-selector-attr, .hljs-selector-class, .hljs-selector-pseudo,
+.hljs-template-variable, .hljs-type, .hljs-variable { color: var(--peach); }
+.hljs-bullet, .hljs-link, .hljs-meta, .hljs-selector-id, .hljs-symbol, .hljs-title { color: var(--blue); }
+.hljs-title.function_ { color: var(--teal); }
+.hljs-built_in, .hljs-class .hljs-title, .hljs-title.class_ { color: var(--yellow); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 700; }
+.hljs-link { text-decoration: underline; }`;
 
 // ── Decor ─────────────────────────────────────────────────────────────────
 
@@ -745,7 +752,7 @@ export function fontSummaries(): FontSummary[] {
   }));
 }
 
-/** One line per face, for `deckrun --list-fonts`. */
+/** One line per face, for `harbour --list-fonts`. */
 export function fontListing(): string[] {
   const pad = Math.max(...FONT_IDS.map((id) => id.length));
   return FONT_IDS.map(

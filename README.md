@@ -1,10 +1,10 @@
-# deckrun
+# harbour
 
 Write slides in Markdown or bring a self-contained HTML document, run a local server, and present either in the browser.
 
 - **Two formats** - Markdown decks with slide-by-slide presentation, or self-contained HTML documents with continuous scrolling
 - **Live editor** - edit alongside a live preview, with autosave and a library of all your decks and docs
-- **Maxx Mellow** - the built-in dark/light palette pair, with Geist and Newsreader as the two heading and body faces
+- **Maxx Mellow** - the built-in dark/light palette pair, with Geist, Newsreader, and Fraunces as heading and body faces
 - **Motion** - a minimal composition template and three transitions (slide, fade, none), switchable without touching the Markdown
 - **Technical content** - KaTeX equations and Mermaid diagrams in preview, presentation, HTML, and PDF
 - **Incremental reveals** - step through bullets, prose, equations, code, or diagrams without duplicating slides
@@ -19,85 +19,85 @@ Write slides in Markdown or bring a self-contained HTML document, run a local se
 
 ## Quick start
 
-Check out the sample Markdown source in [`examples/example-2.md`](https://raw.githubusercontent.com/arpitbbhayani/deckrun/refs/heads/master/examples/example-2.md) and load it directly to see how `deckrun` presents it (no installation required):
+Check out the sample Markdown source in [`examples/example-2.md`](https://raw.githubusercontent.com/maxxkph/harbour/refs/heads/master/examples/example-2.md) and load it directly to see how `harbour` presents it (no installation required):
 
 ```bash
-npx deckrun
+npx harbour
 ```
 
 ## Installation
 
 Install with a single command. On Linux and macOS the installer bootstraps
-Node.js (>= 16) automatically if it's missing, then installs deckrun from npm:
+Node.js (>= 16) automatically if it's missing, then installs harbour from npm:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/arpitbbhayani/deckrun/master/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/maxxkph/harbour/master/install.sh | sh
 ```
 
 On Windows, the PowerShell installer does the same (installs the Node.js LTS
 via winget, or downloads it, when needed):
 
 ```powershell
-irm https://raw.githubusercontent.com/arpitbbhayani/deckrun/master/install.ps1 | iex
+irm https://raw.githubusercontent.com/maxxkph/harbour/master/install.ps1 | iex
 ```
 
 Or install globally from npm directly:
 
 ```bash
-npm install -g deckrun
+npm install -g harbour
 ```
 
 Or run it without installing:
 
 ```bash
-npx deckrun              # open the editor
-npx deckrun slides.md    # open a local file in the editor, present from there
-npx deckrun <url>        # open a public Markdown or HTML URL in the editor
+npx harbour              # open the editor
+npx harbour slides.md    # open a local file in the editor, present from there
+npx harbour <url>        # open a public Markdown or HTML URL in the editor
 ```
 
 ## Usage
 
 ```bash
 # Write a new deck in the built-in editor
-deckrun
+harbour
 
 # Open a file in the editor on the default port 7890. The editor saves back
 # to the file, edits made to the file on disk reload the editor, and
 # Cmd/Ctrl+Enter presents.
-deckrun slides.md
+harbour slides.md
 
 # Open a self-contained HTML page instead of a Markdown deck
-deckrun page.html
+harbour page.html
 
 # Serve on a custom port
-deckrun slides.md -p 3000
+harbour slides.md -p 3000
 
 # Start the server without opening a browser tab
-deckrun slides.md --no-open
+harbour slides.md --no-open
 
 # Open the file without watching it for changes on disk
-deckrun slides.md --no-watch
+harbour slides.md --no-watch
 
 # Show a launch overlay that enters fullscreen on the first key or click
-deckrun slides.md --fullscreen
+harbour slides.md --fullscreen
 
 # Pick the light companion palette
-deckrun slides.md --theme maxx-mellow-dawn
+harbour slides.md --theme maxx-mellow-dawn
 
 # Or set the two faces yourself
-deckrun slides.md --head-font geist --body-font newsreader
+harbour slides.md --head-font geist --body-font newsreader
 
 # Recompose the same Markdown and choose how slides move
-deckrun slides.md --transition fade
+harbour slides.md --transition fade
 
 # Check one or more decks before presenting or committing them
-deckrun lint slides.md
-deckrun lint talks/*.md --format json
+harbour lint slides.md
+harbour lint talks/*.md --format json
 
-deckrun --list-themes
-deckrun --list-fonts
-deckrun --list-templates
-deckrun --list-transitions
+harbour --list-themes
+harbour --list-fonts
+harbour --list-templates
+harbour --list-transitions
 ```
 
 On start, the CLI prints the slide count and the local URL:
@@ -112,7 +112,7 @@ edits to slides.md on disk reload the editor as well.
 A file passed on the CLI opens straight into the editor, backed by the file
 rather than the browser library: what you type autosaves back to the file,
 and edits made to the file on disk — from your own editor, a build step, an
-agent — reload the deckrun editor and its live preview. Pass `--no-watch`
+agent — reload the harbour editor and its live preview. Pass `--no-watch`
 to turn off the disk watching. Presenting (`Cmd/Ctrl+Enter`) works exactly
 as it does for library decks. A document fetched from a URL opens the same
 way, but read-only toward its origin: nothing is written back, so download
@@ -153,16 +153,16 @@ An unknown `--theme` or font is an error rather than a silent fallback, so a typ
 
 `--head-font` and `--body-font` apply to Markdown decks only. An HTML doc brings its own typography; passing any of them alongside an `.html`/`.htm` file prints a notice and is otherwise ignored.
 
-### `deckrun lint`
+### `harbour lint`
 
 The lint command performs fast, browser-free checks and reports the source
 line, slide number, severity, and rule id for each problem:
 
 ```bash
-deckrun lint slides.md
-deckrun lint intro.md architecture.md
-deckrun lint slides.md --format json
-deckrun lint slides.md --max-warnings -1
+harbour lint slides.md
+harbour lint intro.md architecture.md
+harbour lint slides.md --format json
+harbour lint slides.md --max-warnings -1
 ```
 
 It catches empty decks/slides, unclosed code fences and display math, untagged
@@ -174,16 +174,16 @@ number of warnings. Pass `-` as the file to lint standard input.
 
 ## The editor
 
-Run `deckrun` with no file and it serves an editor instead of a deck. A deck already in this browser resumes with no extra step, exactly as before. The first time you run it — or any time you choose "new" from the library with nothing open yet — you land on a start screen instead: a new Markdown deck, a new or uploaded HTML doc, or the library. Pick Markdown and you get the usual pane pair, Markdown on the left and the live deck on the right, plus a library of every deck and doc you have written.
+Run `harbour` with no file and it serves an editor instead of a deck. A deck already in this browser resumes with no extra step, exactly as before. The first time you run it — or any time you choose "new" from the library with nothing open yet — you land on a start screen instead: a new Markdown deck, a new or uploaded HTML doc, or the library. Pick Markdown and you get the usual pane pair, Markdown on the left and the live deck on the right, plus a library of every deck and doc you have written.
 
 ```bash
-deckrun
-deckrun --theme paper            # start the editor in a given look
-deckrun --head-font syne         # and a face of your own
-deckrun -p 3000            # editor on another port
+harbour
+harbour --theme paper            # start the editor in a given look
+harbour --head-font syne         # and a face of your own
+harbour -p 3000            # editor on another port
 ```
 
-The preview is not an approximation. Every keystroke is parsed by the same parser the CLI uses, and the slides render inside an iframe fixed at 1600x900 with the deck's own stylesheet. Pressing present POSTs the Markdown back to the server, which builds the deck exactly as `deckrun file.md` would. The output is byte-identical.
+The preview is not an approximation. Every keystroke is parsed by the same parser the CLI uses, and the slides render inside an iframe fixed at 1600x900 with the deck's own stylesheet. Pressing present POSTs the Markdown back to the server, which builds the deck exactly as `harbour file.md` would. The output is byte-identical.
 
 ### The two bars
 
@@ -231,21 +231,21 @@ Markdown remains byte-for-byte unchanged.
 
 ### Images
 
-Images are referenced by path, exactly as in a file-based deck. The editor serves the directory you launched in, so launch `deckrun` next to your diagrams and `![Diagram](diagram.png "right")` resolves.
+Images are referenced by path, exactly as in a file-based deck. The editor serves the directory you launched in, so launch `harbour` next to your diagrams and `![Diagram](diagram.png "right")` resolves.
 
 The guide and the palette carry every directive, so the layouts are one keystroke away rather than something to remember. Images are not uploaded or embedded: the editor keeps Markdown, and the files stay on disk where you put them.
 
 ### HTML documents
 
-Alongside Markdown decks, deckrun can present a second kind of document: a self-contained HTML page with no slide boundaries — a single continuous doc, not a series of slides. There is no blank-slate option: get one into the editor from the start screen by uploading a `.html` file or pointing it at a public HTML URL (fetched server-side, so the page's own CORS policy does not matter), by dropping a `.html` file onto the editor, or on the CLI with `deckrun page.html`.
+Alongside Markdown decks, harbour can present a second kind of document: a self-contained HTML page with no slide boundaries — a single continuous doc, not a series of slides. There is no blank-slate option: get one into the editor from the start screen by uploading a `.html` file or pointing it at a public HTML URL (fetched server-side, so the page's own CORS policy does not matter), by dropping a `.html` file onto the editor, or on the CLI with `harbour page.html`.
 
 Editing is a plain source pane on the left and a live preview on the right — no syntax highlighting, gutter, guide drawer, or command palette, since there are no slide-authoring directives to catalogue. The preview updates from the textarea directly, with no server round trip.
 
 Presenting wraps the doc in an iframe and layers the tool belt that still makes sense with no slides — laser pointer, pen, blank canvas, blackout, fullscreen, and `?` for controls — on top of it. There is no HUD, slide counter, overview grid, or arrow-key navigation, since there is nothing to count or step through.
 
-A doc authored in the browser editor is expected to be self-contained: inline styles and scripts, and assets from a CDN or a `data:` URI rather than a relative local path, since editor-mode present and PDF serve it from an in-memory copy, not from a folder on disk. A file passed on the CLI does not have that restriction — `deckrun page.html` serves assets from the file's own directory, exactly like a Markdown deck's images, so `<img src="diagram.png">` next to `page.html` resolves normally.
+A doc authored in the browser editor is expected to be self-contained: inline styles and scripts, and assets from a CDN or a `data:` URI rather than a relative local path, since editor-mode present and PDF serve it from an in-memory copy, not from a folder on disk. A file passed on the CLI does not have that restriction — `harbour page.html` serves assets from the file's own directory, exactly like a Markdown deck's images, so `<img src="diagram.png">` next to `page.html` resolves normally.
 
-If a doc runs its own script that listens for keyboard input — an embedded framework, a game, a chart with its own shortcuts — it may end up racing deckrun's own listener for a key, since both are attached to the same page. Presenter shortcuts are best-effort in that case, not guaranteed to win.
+If a doc runs its own script that listens for keyboard input — an embedded framework, a game, a chart with its own shortcuts — it may end up racing harbour's own listener for a key, since both are attached to the same page. Presenter shortcuts are best-effort in that case, not guaranteed to win.
 
 ### The deck library
 
@@ -259,7 +259,7 @@ Every deck or doc you write is kept in this browser, not just the last one. The 
 - Uploading a file from the start screen, or dropping a `.md`/`.html` file onto the editor, lands it as a new entry of the matching kind. Name collisions get a numeric suffix rather than overwriting.
 - Rename with the name field in the top bar. That name is also the export filename.
 
-Storage layout: an index under `deckrun.decks.v1` holds metadata only, and each entry's content lives under `deckrun.deck.<id>`. Listing your library never reads that text.
+Storage layout: an index under `harbour.decks.v1` holds metadata only, and each entry's content lives under `harbour.deck.<id>`. Listing your library never reads that text.
 
 ### Saving
 
@@ -283,11 +283,11 @@ The `export` button in the top bar opens a menu with three formats. All three ar
 
 PDF export does not hand you a print dialog. The server drives a headless browser over the built deck and streams back the finished file, so there is nothing to configure and nothing to get wrong. Pages are 13.333in by 7.5in, the standard widescreen slide size, with no margins: the theme, its backdrop geometry, code block surfaces, table fills, and background images all come through, and the HUD, arrows, and speaker notes are stripped.
 
-It uses a Chromium-family browser already on your machine and installs nothing. Chrome, Chromium, Edge, and Brave are found automatically in their usual locations; `DECKRUN_BROWSER`, `CHROME_PATH`, or `PUPPETEER_EXECUTABLE_PATH` points at one somewhere else, checked in that order. A render takes a few seconds, and only one runs at a time.
+It uses a Chromium-family browser already on your machine and installs nothing. Chrome, Chromium, Edge, and Brave are found automatically in their usual locations; `HARBOUR_BROWSER`, `CHROME_PATH`, or `PUPPETEER_EXECUTABLE_PATH` points at one somewhere else, checked in that order. A render takes a few seconds, and only one runs at a time.
 
 With no such browser on the machine, the editor falls back to opening the deck with the print dialog up and says so. That route now produces the same pages, because the print stylesheet sets the page box itself.
 
-The HTML export is the same page `deckrun` serves: styles and the navigation runtime are inlined, so it opens from disk, and keyboard, touch, overview, and fullscreen all still work. Two things do not travel with it, since it is one file rather than a bundle:
+The HTML export is the same page `harbour` serves: styles and the navigation runtime are inlined, so it opens from disk, and keyboard, touch, overview, and fullscreen all still work. Two things do not travel with it, since it is one file rather than a bundle:
 
 - Fonts, syntax highlighting, KaTeX, and Mermaid load from pinned CDNs in a standalone export, so a viewer needs a connection to see them exactly as you do. The theme, template, transitions, colors, and backdrop are inline.
 - Images and videos referenced by path stay on your disk. Ship them alongside, or host the page where those paths resolve.
@@ -469,7 +469,7 @@ sequenceDiagram
 
 Both render in the live preview, a presented deck, standalone HTML, and PDF.
 The editor waits for the equation or diagram before measuring slide overflow,
-and PDF rendering uses the copies installed with deckrun rather than waiting on
+and PDF rendering uses the copies installed with harbour rather than waiting on
 a CDN. Invalid source stays visible as an error on the slide instead of
 silently disappearing.
 
@@ -572,7 +572,8 @@ Images with no directive stay inline, centered in the document flow and capped a
 One theme, two lightness passes: dark is the primary identity, and its light
 companion re-tunes the same hues for daylight rather than inverting the
 palette. Each brings its own display, body, and monospace faces, its own
-Highlight.js grammar colors, and its own animated geometry behind the slides.
+syntax-highlighting colors — pulled from its own accent palette rather than a
+separate Highlight.js theme — and its own animated geometry behind the slides.
 
 | id                | mood  | what it is                                            |
 | ----------------- | ----- | ------------------------------------------------------ |
@@ -580,8 +581,8 @@ Highlight.js grammar colors, and its own animated geometry behind the slides.
 | `maxx-mellow-dawn` | light | The mellow palette re-tuned for daylight, not inverted  |
 
 ```bash
-deckrun slides.md --theme maxx-mellow-dawn
-deckrun --list-themes
+harbour slides.md --theme maxx-mellow-dawn
+harbour --list-themes
 ```
 
 `dark` and `light` are kept as aliases for `maxx-mellow` and `maxx-mellow-dawn`,
@@ -618,14 +619,14 @@ and they are chosen **separately** — a serif heading over a sans body, or the
 reverse, is a setting rather than a fork:
 
 ```bash
-deckrun slides.md --head-font geist --body-font newsreader
-deckrun slides.md --body-font newsreader     # heading stays the theme's
-deckrun --list-fonts
+harbour slides.md --head-font geist --body-font newsreader
+harbour slides.md --body-font newsreader     # heading stays the theme's
+harbour --list-fonts
 ```
 
-Three faces, grouped sans, serif, and mono: `geist`, `newsreader`, `plexMono`.
-Their human names work too, so `--head-font "IBM Plex Mono"` is the same as
-`--head-font plexMono`.
+Four faces, grouped sans, serif, and mono: `geist`, `newsreader`, `fraunces`,
+`plexMono`. Their human names work too, so `--head-font "IBM Plex Mono"` is
+the same as `--head-font plexMono`.
 
 The monospace face is not overridable on purpose: code wants the face the
 palette's syntax highlighting was chosen against.
@@ -654,9 +655,9 @@ The `template` menu also carries three independent transitions: `slide`,
 and print/PDF disables them entirely.
 
 ```bash
-deckrun slides.md --transition fade
-deckrun --list-templates
-deckrun --list-transitions
+harbour slides.md --transition fade
+harbour --list-templates
+harbour --list-transitions
 ```
 
 ### Type and motion
@@ -690,7 +691,9 @@ An entry is four things:
   tracking, and casing the display face wants. Faces come from the `FONTS`
   catalog at the top of the file; add an entry there to use a new one.
 
-Plus `decor` for the backdrop and `hljs` for the code stylesheet.
+Plus `decor` for the backdrop. Code coloring needs nothing of its own — it
+maps Highlight.js token classes onto the theme's own accent slots (`HLJS_CSS`
+in `src/themes.ts`), so a new theme's code blocks are in its palette for free.
 
 ```ts
 seafoam: {
@@ -702,7 +705,6 @@ seafoam: {
   roles: { accent: "teal", accent2: "blue", accent3: "green" },
   type: { display: "sora", body: "inter", mono: "jetbrains", weight: 700 },
   decor: "dots",
-  hljs: `${HL}atom-one-dark.min.css`,
 },
 ```
 
@@ -811,7 +813,7 @@ Present **from the editor** (`Cmd+Enter`) and the deck opens in its own tab; the
 - The link is live: it survives a reload of either tab.
 - The notes shown are the slide's `<!-- notes: ... -->`, the same text the audience never sees.
 
-A deck run straight from a file has no editor to follow it; present it through the editor instead (`deckrun`, then drag the file onto it, then `Cmd+Enter`) to get the notes during the talk.
+A deck run straight from a file has no editor to follow it; present it through the editor instead (`harbour`, then drag the file onto it, then `Cmd+Enter`) to get the notes during the talk.
 
 ## Visual design
 
@@ -836,13 +838,13 @@ Loading any presented deck with `&print=1` on its URL opens the print dialog onc
 
 ## Local asset server
 
-`deckrun` serves the editor at `/` and everything else relative to the directory holding the opened file. Launched without a file, it serves the directory you launched in. Local images, diagrams, videos, and fonts load over `http://` instead of `file://`, which avoids CORS restrictions on local assets.
+`harbour` serves the editor at `/` and everything else relative to the directory holding the opened file. Launched without a file, it serves the directory you launched in. Local images, diagrams, videos, and fonts load over `http://` instead of `file://`, which avoids CORS restrictions on local assets.
 
 - Served types include HTML, CSS, JS, JSON, PNG, JPEG, GIF, SVG, WebP, AVIF, ICO, MP4, WebM, WOFF, WOFF2, and TTF. Anything else is sent as `application/octet-stream`.
 - Requests that resolve outside the Markdown file's directory return `403`. Missing files return `404`.
 - If the requested port is taken, the server falls back to a random free port and prints the URL it settled on.
 
-KaTeX and Mermaid are served from the copies installed with deckrun, which
+KaTeX and Mermaid are served from the copies installed with harbour, which
 keeps live preview and PDF rendering independent of the network. Google Fonts
 and Highlight.js still load from CDNs, so a first run needs network access
 for those visual extras.
@@ -851,7 +853,7 @@ for those visual extras.
 
 ### Markdown decks
 
-Any tool that writes Markdown can write a `deckrun` deck. If you use Claude Code, the `blog-to-slides` skill turns a blog post, article, or long-form note into a deck in exactly this format: `---` separators, `## Title` per slide, language-tagged code blocks, and ASCII diagrams where a picture beats a paragraph.
+Any tool that writes Markdown can write a `harbour` deck. If you use Claude Code, the `blog-to-slides` skill turns a blog post, article, or long-form note into a deck in exactly this format: `---` separators, `## Title` per slide, language-tagged code blocks, and ASCII diagrams where a picture beats a paragraph.
 
 ```text
 turn https://arpitbhayani.me/blogs/wal into slides
@@ -860,13 +862,13 @@ turn https://arpitbhayani.me/blogs/wal into slides
 Then present the file it writes:
 
 ```bash
-deckrun wal-slides.md
+harbour wal-slides.md
 ```
 
 Or open the editor and drop the file onto it, which is the faster loop when you still want to cut a few slides:
 
 ```bash
-deckrun
+harbour
 ```
 
 The skill is a personal Claude Code skill and is not bundled with this package. Add it under `~/.claude/skills/blog-to-slides/SKILL.md` to make it available across projects.
@@ -876,7 +878,7 @@ from generated Markdown render as diagrams as well.
 
 ### HTML documents
 
-For a self-contained HTML doc instead of a Markdown deck, use the [`ape-present`](https://github.com/arpitbbhayani/ape-skills) skill. It turns a blog post into a single presentation-worthy HTML page — a readable long-form document with animated diagrams and just enough text to carry the idea — which is exactly the kind of doc `deckrun`'s presenter mode is built for.
+For a self-contained HTML doc instead of a Markdown deck, use the [`ape-present`](https://github.com/arpitbbhayani/ape-skills) skill. It turns a blog post into a single presentation-worthy HTML page — a readable long-form document with animated diagrams and just enough text to carry the idea — which is exactly the kind of doc `harbour`'s presenter mode is built for.
 
 ```text
 ape present https://arpitbhayani.me/blogs/wal
@@ -885,7 +887,7 @@ ape present https://arpitbhayani.me/blogs/wal
 Then present the page it writes:
 
 ```bash
-deckrun wal.html
+harbour wal.html
 ```
 
 Like `blog-to-slides`, this is a personal Claude Code skill from the same [ape-skills](https://github.com/arpitbbhayani/ape-skills) collection and is not bundled with this package.
@@ -961,16 +963,16 @@ Two decks ship in `examples/`:
 
 ```bash
 # Open the feature showcase deck in the editor
-deckrun examples/example-1.md
+harbour examples/example-1.md
 
 # Or open the blank editor and drag either file onto it to import
-deckrun
+harbour
 
 # Open the technical talk in light theme on port 3000
-deckrun examples/example-2.md -p 3000 --theme maxx-mellow-dawn
+harbour examples/example-2.md -p 3000 --theme maxx-mellow-dawn
 
 # Present fullscreen on the first key or click, without opening a browser
-deckrun examples/example-1.md --fullscreen --no-open
+harbour examples/example-1.md --fullscreen --no-open
 ```
 
 ## Not supported yet
@@ -1008,7 +1010,7 @@ The source:
 - `src/themes.ts` is the theme registry: palettes, font catalog, backdrop patterns, and the CSS they all emit
 - `src/presentation-options.ts` is the composition-template and transition registry
 - `src/fragments.ts` contains incremental-reveal styles and DOM preparation shared by preview and presentation
-- `src/lint.ts` implements the static deck authoring rules behind `deckrun lint`
+- `src/lint.ts` implements the static deck authoring rules behind `harbour lint`
 - `src/rich-content.ts` detects and renders KaTeX and Mermaid content, with a shared readiness signal
 - `src/generate.ts` holds the slide CSS, the presenter chrome, and the deck runtime
 - `src/preview.ts` is the editor's preview iframe, sharing the slide CSS with the deck

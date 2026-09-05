@@ -1,5 +1,5 @@
 /**
- * Session highlights: select text anywhere deckrun renders a document, paint
+ * Session highlights: select text anywhere harbour renders a document, paint
  * it in the theme's highlighter colour, and hang a comment off it.
  *
  * Nothing is written to disk and nothing leaves the browser. The store lives
@@ -182,17 +182,17 @@ export const HIGHLIGHT_WARNING =
   "Highlights and comments live only in this browser session. They travel to the deck you present, and disappear when the tab closes. Nothing is written to disk.";
 
 /**
- * `window.deckrunHighlights`, ready to be dropped into any deckrun page.
+ * `window.harbourHighlights`, ready to be dropped into any harbour page.
  * Callers get it going with `mount()`; see the options block below.
  */
 export const HIGHLIGHT_RUNTIME = `(function () {
   'use strict';
-  if (window.deckrunHighlights) return;
+  if (window.harbourHighlights) return;
 
   var MARK_CSS = ${JSON.stringify(MARK_CSS)};
   var UI_CSS = ${JSON.stringify(UI_CSS)};
   var WARNING = ${JSON.stringify(HIGHLIGHT_WARNING)};
-  var KEY = 'deckrun.highlights';
+  var KEY = 'harbour.highlights';
   var SLIDE_SELECTOR = '#presentation .slide[data-index]';
   var TAB = 'tab' + Math.random().toString(36).slice(2);
 
@@ -817,7 +817,7 @@ export const HIGHLIGHT_RUNTIME = `(function () {
     return api;
   }
 
-  window.deckrunHighlights = {
+  window.harbourHighlights = {
     mount: mount,
     warning: WARNING,
     /** Drops a document's highlights, for when the document itself is gone. */

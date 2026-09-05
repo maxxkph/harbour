@@ -1,10 +1,10 @@
 {
-  "name": "deckrun",
+  "name": "harbour",
   "version": "1.6.0",
   "description": "A local-first presentation tool for writing, editing, presenting, and exporting Markdown slides or self-contained HTML docs.",
   "type": "module",
   "bin": {
-    "deckrun": "./dist/index.js"
+    "harbour": "./dist/index.js"
   },
   "files": [
     "dist/"

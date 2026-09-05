@@ -1,13 +1,13 @@
 #!/usr/bin/env sh
 #
-# deckrun - one-command installer for Linux & macOS
+# harbour - one-command installer for Linux & macOS
 #
-#   curl -fsSL https://raw.githubusercontent.com/arpitbbhayani/deckrun/master/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/maxxkph/harbour/master/install.sh | sh
 #
-# Installs deckrun globally from npm. If Node.js (>= 16) is missing or too
-# old, it downloads an LTS Node.js into ~/.local/share/deckrun-node (no root
+# Installs harbour globally from npm. If Node.js (>= 16) is missing or too
+# old, it downloads an LTS Node.js into ~/.local/share/harbour-node (no root
 # required), puts it on PATH for this shell, and persists that PATH entry in
-# your shell profile so deckrun keeps working in future terminals.
+# your shell profile so harbour keeps working in future terminals.
 #
 # Windows users: see install.ps1  (irm ... | iex)
 
@@ -20,16 +20,16 @@ BOLD='\033[1m'
 RESET='\033[0m'
 
 say()  { printf "%b\n" "$1"; }
-info() { say "${CYAN}deckrun${RESET} $1"; }
+info() { say "${CYAN}harbour${RESET} $1"; }
 ok()   { say "${GREEN}✓${RESET} $1"; }
 warn() { say "${YELLOW}!${RESET} $1"; }
 
 # ── Configuration ─────────────────────────────────────────────────────────
 NODE_MIN_MAJOR=16
 # LTS to install when Node is missing or too old. Override with the
-# DECKRUN_NODE_VERSION environment variable, e.g. DECKRUN_NODE_VERSION=20.
-NODE_MAJOR="${DECKRUN_NODE_VERSION:-22}"
-NODE_INSTALL_DIR="${DECKRUN_NODE_DIR:-$HOME/.local/share/deckrun-node}"
+# HARBOUR_NODE_VERSION environment variable, e.g. HARBOUR_NODE_VERSION=20.
+NODE_MAJOR="${HARBOUR_NODE_VERSION:-22}"
+NODE_INSTALL_DIR="${HARBOUR_NODE_DIR:-$HOME/.local/share/harbour-node}"
 DOWNLOAD_URL="https://nodejs.org/dist"
 
 # ── Tools ─────────────────────────────────────────────────────────────────
@@ -48,7 +48,7 @@ persist_path() {
     if grep -qF "$key" "$rc" 2>/dev/null; then
       continue
     fi
-    printf '\n# added by the deckrun installer\nexport PATH="%s:$PATH"\n' "$NODE_INSTALL_DIR/bin" >> "$rc"
+    printf '\n# added by the harbour installer\nexport PATH="%s:$PATH"\n' "$NODE_INSTALL_DIR/bin" >> "$rc"
   done
   # Create .profile if no dotfile exists yet, so login shells pick it up.
   if [ ! -f "$HOME/.profile" ]; then
@@ -143,7 +143,7 @@ ensure_node() {
       info "Node.js v$existing detected."
       return 0
     fi
-    warn "Found Node.js v$existing; deckrun needs >= $NODE_MIN_MAJOR."
+    warn "Found Node.js v$existing; harbour needs >= $NODE_MIN_MAJOR."
   fi
 
   # A previously auto-installed copy counts too even if the bare `node`
@@ -168,26 +168,26 @@ ensure_node() {
 # ── Main ─────────────────────────────────────────────────────────────────
 ensure_node
 
-# ── Install deckrun ──────────────────────────────────────────────────────
+# ── Install harbour ──────────────────────────────────────────────────────
 if [ "$(id -u)" -eq 0 ] || [ -n "$(npm config get prefix 2>/dev/null)" ]; then
-  info "Installing deckrun globally via npm…"
-  npm install -g deckrun
+  info "Installing harbour globally via npm…"
+  npm install -g harbour
 else
-  info "Installing deckrun globally via npm (may prompt for your password)…"
-  sudo npm install -g deckrun
+  info "Installing harbour globally via npm (may prompt for your password)…"
+  sudo npm install -g harbour
 fi
 
 # ── Verify ───────────────────────────────────────────────────────────────
-if command -v deckrun >/dev/null 2>&1; then
-  ok "deckrun ${BOLD}$(deckrun --version 2>/dev/null)${RESET} installed."
+if command -v harbour >/dev/null 2>&1; then
+  ok "harbour ${BOLD}$(harbour --version 2>/dev/null)${RESET} installed."
   say ""
-  say "  ${BOLD}deckrun${RESET}              # open the editor"
-  say "  ${BOLD}deckrun slides.md${RESET}    # present a local file"
-  say "  ${BOLD}deckrun <url>${RESET}        # present a public Markdown or HTML URL"
+  say "  ${BOLD}harbour${RESET}              # open the editor"
+  say "  ${BOLD}harbour slides.md${RESET}    # present a local file"
+  say "  ${BOLD}harbour <url>${RESET}        # present a public Markdown or HTML URL"
   say ""
 else
-  warn "deckrun was installed but is not on your PATH."
-  warn "Make sure your npm global bin directory is on PATH, then run 'deckrun'."
+  warn "harbour was installed but is not on your PATH."
+  warn "Make sure your npm global bin directory is on PATH, then run 'harbour'."
   if [ -n "$NODE_INSTALL_DIR" ] && [ -x "$NODE_INSTALL_DIR/bin/node" ]; then
     warn "If Node was just installed locally, open a new terminal or run:"
     say   "  export PATH=\"$NODE_INSTALL_DIR/bin:\$PATH\""

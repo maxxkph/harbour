@@ -7,8 +7,7 @@ import {
   decorMapJson,
   decorOf,
   googleFontsHref,
-  hljsHref,
-  hljsMapJson,
+  HLJS_CSS,
   themeSwitchableCss,
   type ThemeName,
 } from "./themes.js";
@@ -35,7 +34,7 @@ export const PREVIEW_HEIGHT = 900;
 
 /**
  * The document loaded into the editor's preview iframe. It carries the deck's
- * own stylesheet, so what the editor shows is what `deckrun file.md` renders.
+ * own stylesheet, so what the editor shows is what `harbour file.md` renders.
  * Slides arrive over postMessage; nothing is fetched or parsed in here.
  */
 export function generatePreviewHtml(
@@ -54,11 +53,10 @@ export function generatePreviewHtml(
 <html lang="en" data-theme="${initialTheme}" data-decor="${decorOf(initialTheme)}" data-template="${template}" data-transition="${transition}"${fontAttrs}>
 <head>
   <meta charset="UTF-8">
-  <title>preview · deckrun</title>
+  <title>preview · harbour</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="${googleFontsHref()}" rel="stylesheet">
-  <link rel="stylesheet" id="hljs-theme" href="${hljsHref(initialTheme)}">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   ${richContentHead({ math: true, mermaid: true }, "local")}
   <style>
@@ -79,6 +77,8 @@ ${FRAGMENT_CSS}
 ${RICH_CONTENT_CSS}
 
 ${DECOR_CSS}
+
+${HLJS_CSS}
 
 /* ── Preview overrides ────────────────────────────────────────────────── */
 html, body { overflow: hidden; }
@@ -171,7 +171,6 @@ ${RICH_CONTENT_RUNTIME}
   'use strict';
 
   var VW = ${PREVIEW_WIDTH};
-  var HLJS = ${hljsMapJson()};
   var DECOR = ${decorMapJson()};
   var FONTS = ${JSON.stringify(FONT_IDS)};
 
@@ -225,9 +224,9 @@ ${RICH_CONTENT_RUNTIME}
     stage.innerHTML = slides[index] || '';
     var el = stage.querySelector('.slide');
     if (el) el.classList.add('is-active');
-    if (window.deckrunPrepareFragments) window.deckrunPrepareFragments(stage, true);
+    if (window.harbourPrepareFragments) window.harbourPrepareFragments(stage, true);
     highlight(stage);
-    var rich = window.deckrunRenderRichContent ? window.deckrunRenderRichContent(stage) : Promise.resolve();
+    var rich = window.harbourRenderRichContent ? window.harbourRenderRichContent(stage) : Promise.resolve();
     rich.then(function () { requestAnimationFrame(reportOverflow); });
   }
 
@@ -256,9 +255,9 @@ ${RICH_CONTENT_RUNTIME}
     });
     stage.appendChild(frag);
     scaleThumbs();
-    if (window.deckrunPrepareFragments) window.deckrunPrepareFragments(stage, true);
+    if (window.harbourPrepareFragments) window.harbourPrepareFragments(stage, true);
     highlight(stage);
-    var rich = window.deckrunRenderRichContent ? window.deckrunRenderRichContent(stage) : Promise.resolve();
+    var rich = window.harbourRenderRichContent ? window.harbourRenderRichContent(stage) : Promise.resolve();
     rich.then(scaleThumbs);
   }
 
@@ -381,11 +380,9 @@ ${RICH_CONTENT_RUNTIME}
       if (sameSet && !modeChanged && !indexChanged) { reportOverflow(); return; }
       render();
     } else if (m.type === 'theme') {
-      if (HLJS[m.theme]) {
+      if (DECOR[m.theme]) {
         document.documentElement.dataset.theme = m.theme;
         document.documentElement.dataset.decor = DECOR[m.theme];
-        var link = document.getElementById('hljs-theme');
-        if (link) link.href = HLJS[m.theme];
       }
       // An empty string clears the override and hands the slot back to the
       // theme, which delete does and an assignment of '' would not.

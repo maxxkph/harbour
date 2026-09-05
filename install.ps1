@@ -1,16 +1,16 @@
-# deckrun - one-command installer for Windows (PowerShell)
+# harbour - one-command installer for Windows (PowerShell)
 #
-#   irm https://raw.githubusercontent.com/arpitbbhayani/deckrun/master/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/maxxkph/harbour/master/install.ps1 | iex
 #
-# Installs deckrun globally from npm. If Node.js (>= 16) is missing or too
+# Installs harbour globally from npm. If Node.js (>= 16) is missing or too
 # old, it installs the Node.js LTS (via winget when available, otherwise by
-# downloading the Node.js .msi), refreshes PATH, then installs deckrun.
+# downloading the Node.js .msi), refreshes PATH, then installs harbour.
 
 $ErrorActionPreference = 'Stop'
 
 $NodeMin = 16
 
-function Write-Info  { Write-Host "deckrun $args" -ForegroundColor Cyan }
+function Write-Info  { Write-Host "harbour $args" -ForegroundColor Cyan }
 function Write-Ok    { Write-Host "✓ $args" -ForegroundColor Green }
 function Write-Warn  { Write-Host "! $args" -ForegroundColor Yellow }
 
@@ -45,7 +45,7 @@ if ($ver) {
     if ($major -ge $NodeMin) {
         Write-Info "Node.js $ver detected."
     } else {
-        Write-Warn "Found Node.js $ver; deckrun needs >= $NodeMin."
+        Write-Warn "Found Node.js $ver; harbour needs >= $NodeMin."
         $ver = $null
     }
 }
@@ -102,20 +102,20 @@ if (-not $ver) {
     Write-Ok "Node.js $newVer installed."
 }
 
-# ── Install deckrun ──────────────────────────────────────────────────────
-Write-Info 'Installing deckrun globally via npm…'
-npm install -g deckrun
+# ── Install harbour ──────────────────────────────────────────────────────
+Write-Info 'Installing harbour globally via npm…'
+npm install -g harbour
 
 # ── Verify ───────────────────────────────────────────────────────────────
-if (Get-Command deckrun -ErrorAction SilentlyContinue) {
-    $dv = deckrun --version 2>$null
-    Write-Ok "deckrun $dv installed."
+if (Get-Command harbour -ErrorAction SilentlyContinue) {
+    $dv = harbour --version 2>$null
+    Write-Ok "harbour $dv installed."
     Write-Host ''
-    Write-Host "  deckrun           # open the editor" -ForegroundColor Cyan
-    Write-Host "  deckrun slides.md # present a local file" -ForegroundColor Cyan
-    Write-Host "  deckrun <url>     # present a public Markdown or HTML URL" -ForegroundColor Cyan
+    Write-Host "  harbour           # open the editor" -ForegroundColor Cyan
+    Write-Host "  harbour slides.md # present a local file" -ForegroundColor Cyan
+    Write-Host "  harbour <url>     # present a public Markdown or HTML URL" -ForegroundColor Cyan
     Write-Host ''
 } else {
-    Write-Warn 'deckrun was installed but is not on your PATH.'
-    Write-Warn 'Open a new terminal (or refresh your PATH) and run deckrun.'
+    Write-Warn 'harbour was installed but is not on your PATH.'
+    Write-Warn 'Open a new terminal (or refresh your PATH) and run harbour.'
 }

@@ -9,7 +9,7 @@ Status values: `keep` / `trim` / `remove` / `tbd` / `done`
 | Self-contained HTML docs (continuous scroll) | keep | |
 | Live editor + autosave + deck library | keep | |
 | Themes | done | Cut from 14 to 2: `maxx-mellow` (dark, default) + `maxx-mellow-dawn` (light). Palette from nikhar.dev/maxx-mellow. |
-| Fonts | done | Cut to 3: `geist` (sans, default head+body), `newsreader` (serif alt), `plexMono` (mono, code). |
+| Fonts | done | Cut to 3, then `fraunces` added back as a heading face: `geist` (sans, default head+body), `newsreader` (serif alt), `fraunces` (serif display, headings), `plexMono` (mono, code). |
 | Templates | done | Cut from 4 to 1: `minimal` (now also the default). |
 | Transitions | done | Cut from 5 to 3: `slide`, `fade`, `none`. Removed `zoom`, `lift`. |
 | Editor + deck UI borders/shadows | done | Full flat redesign across editor.ts, generate.ts, preview.ts, highlights.ts. Shadows/hairline neutralized via theme vars; hover/selected states moved to background-tint (`color-mix`) instead of border-color swaps. |
@@ -20,7 +20,7 @@ Status values: `keep` / `trim` / `remove` / `tbd` / `done`
 | KaTeX equations | keep | |
 | Mermaid diagrams | keep | |
 | Incremental reveals | keep | |
-| Deck linting (`deckrun lint`) | keep | |
+| Deck linting (`harbour lint`) | keep | |
 | Presenter tools (laser pointer, pen, blank canvas, blackout) | keep | |
 | Highlights + comments | keep | |
 | Presenter notes panel | keep | |

@@ -2,6 +2,7 @@ import type { Slide } from "./parser.js";
 import {
   DECOR_CSS,
   DEFAULT_THEME,
+  HLJS_CSS,
   THEME_IDS,
   THEMES,
   decorMapJson,
@@ -9,8 +10,6 @@ import {
   findFont,
   fontOverrideCss,
   googleFontsHref,
-  hljsHref,
-  hljsMapJson,
   resolveThemeName,
   themeRootCss,
   themeSummaries,
@@ -40,8 +39,6 @@ export {
   DECOR_CSS,
   decorOf,
   googleFontsHref,
-  hljsHref,
-  hljsMapJson,
   decorMapJson,
   themeRootCss,
   themeSwitchableCss,
@@ -407,23 +404,9 @@ html, body {
   position: relative;
   margin: 1.2rem 0;
   border-radius: 12px;
-  border: 1px solid var(--hairline);
   overflow-x: auto;
   font-size: clamp(0.75rem, 1.1vw, 1rem);
-  box-shadow: var(--code-shadow);
   background: var(--mantle);
-}
-
-/* A hairline of accent along the top edge, so a code block reads as a panel
-   rather than as a hole in the slide. */
-.slide__content pre::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 2px;
-  border-radius: 12px 12px 0 0;
-  background: var(--accent-fade);
-  opacity: 0.8;
 }
 
 /* Override hljs background to match our theme */
@@ -1359,7 +1342,7 @@ export function generateHtml(
   // them; they are never rendered into the deck itself.
   const notesJson = JSON.stringify(slides.map((s) => s.notes ?? "")).replace(/</g, "\\u003c");
 
-  const pageTitle = title ? (title.toLowerCase().includes("deckrun") ? title : `${title} · deckrun`) : "deckrun";
+  const pageTitle = title ? (title.toLowerCase().includes("harbour") ? title : `${title} · harbour`) : "harbour";
   return `<!DOCTYPE html>
 <html lang="en" data-theme="${theme}" data-decor="${decorOf(theme)}" data-template="${template}" data-transition="${transition}"${fontAttrs}>
 <head>
@@ -1369,7 +1352,6 @@ export function generateHtml(
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="${googleFontsHref(THEME_IDS.slice(), [head, body])}" rel="stylesheet">
-  <link rel="stylesheet" id="hljs-theme" href="${hljsHref(theme)}">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   ${richContentHead(rich, presentation.standalone ? "cdn" : "local")}
   <style>
@@ -1390,6 +1372,8 @@ ${FRAGMENT_CSS}
 ${RICH_CONTENT_CSS}
 
 ${DECOR_CSS}
+
+${HLJS_CSS}
 
 ${CHROME_CSS}
 
@@ -1425,7 +1409,7 @@ ${slideHtml}
       <button class="hud-btn" id="btn-help" title="Show every control (?)">? controls</button>
     </div>
     <div id="hud-right">
-      <a href="https://github.com/arpitbbhayani/deckrun" target="_blank" rel="noopener noreferrer" class="hud-brand" id="hud-brand" title="deckrun — Markdown presentations">powered by <span>deckrun</span></a>
+      <a href="https://github.com/maxxkph/harbour" target="_blank" rel="noopener noreferrer" class="hud-brand" id="hud-brand" title="harbour — Markdown presentations">powered by <span>harbour</span></a>
       <div id="slide-counter"><span id="cur">1</span>&nbsp;/&nbsp;<span id="tot">${total}</span></div>
     </div>
   </div>
@@ -1441,12 +1425,12 @@ ${slideHtml}
     <div id="themes__head">
       <span class="th-head__title">themes</span>
       <span class="th-head__sub">Arrow keys preview live &nbsp;·&nbsp; enter selects &nbsp;·&nbsp; esc closes</span>
-      <a href="https://github.com/arpitbbhayani/deckrun" target="_blank" rel="noopener noreferrer" class="th-head__brand" title="deckrun">deckrun</a>
+      <a href="https://github.com/maxxkph/harbour" target="_blank" rel="noopener noreferrer" class="th-head__brand" title="harbour">harbour</a>
       <button id="themes__close" data-close="themes" title="Close (Esc)">&times;</button>
     </div>
     <div id="themes__list"></div>
     <div id="themes__foot">
-      <span class="th-foot__brand">powered by <a href="https://github.com/arpitbbhayani/deckrun" target="_blank" rel="noopener noreferrer">deckrun</a></span>
+      <span class="th-foot__brand">powered by <a href="https://github.com/maxxkph/harbour" target="_blank" rel="noopener noreferrer">harbour</a></span>
       <span class="th-foot__hint">Switch themes on the fly</span>
     </div>
   </div>
@@ -1463,7 +1447,7 @@ ${slideHtml}
     <div id="help__grid"></div>
     <div id="help__foot">
       <span>Annotations live per slide and survive navigation.</span>
-      <span>powered by <a href="https://github.com/arpitbbhayani/deckrun" target="_blank" rel="noopener noreferrer">deckrun</a></span>
+      <span>powered by <a href="https://github.com/maxxkph/harbour" target="_blank" rel="noopener noreferrer">harbour</a></span>
     </div>
   </div>
 </div>
@@ -1480,7 +1464,7 @@ ${autoFullscreen ? `<div id="fs-hint">
 </div>` : ''}
 
 <script id="deck-notes" type="application/json">${notesJson}</script>
-<script id="deck-themes" type="application/json">${JSON.stringify({ themes: themeSummaries(), hljsMap: JSON.parse(hljsMapJson()), decorMap: JSON.parse(decorMapJson()) })}</script>
+<script id="deck-themes" type="application/json">${JSON.stringify({ themes: themeSummaries(), decorMap: JSON.parse(decorMapJson()) })}</script>
 
 <script>
 ${FRAGMENT_RUNTIME}
@@ -1512,8 +1496,8 @@ ${HIGHLIGHT_RUNTIME}
   const elPenBar   = document.getElementById('pen-bar');
   const elPenWidth = document.getElementById('pen-width');
 
-  if (window.deckrunPrepareFragments) {
-    window.deckrunPrepareFragments(document.getElementById('presentation'), false);
+  if (window.harbourPrepareFragments) {
+    window.harbourPrepareFragments(document.getElementById('presentation'), false);
   }
 
   const fragmentSteps = slides.map(() => 0);
@@ -1559,8 +1543,8 @@ ${HIGHLIGHT_RUNTIME}
     });
   }
 
-  const richReady = window.deckrunRenderRichContent
-    ? window.deckrunRenderRichContent(document.getElementById('presentation'))
+  const richReady = window.harbourRenderRichContent
+    ? window.harbourRenderRichContent(document.getElementById('presentation'))
     : Promise.resolve();
 
   // ── Session highlights ───────────────────────────────────────────────
@@ -1569,9 +1553,9 @@ ${HIGHLIGHT_RUNTIME}
   // opens with the same marks and comments already on the slides. Read-only
   // here: selecting text while presenting should not pop up "highlight" /
   // "highlight + comment" — that flow belongs to the editor's preview.
-  if (window.deckrunHighlights) {
+  if (window.harbourHighlights) {
     const hlParam = new URLSearchParams(location.search).get('hl');
-    window.deckrunHighlights.mount({
+    window.harbourHighlights.mount({
       doc: document,
       docKey: hlParam || 'default',
       scopes: 'slides',
@@ -1664,7 +1648,7 @@ ${HIGHLIGHT_RUNTIME}
   const psParam = new URLSearchParams(location.search).get('ps');
   const sid = (psParam && /^[A-Za-z0-9-]{1,64}$/.test(psParam)) ? psParam : null;
   const channel = (sid && typeof BroadcastChannel !== 'undefined')
-    ? new BroadcastChannel('deckrun:' + sid)
+    ? new BroadcastChannel('harbour:' + sid)
     : null;
 
   function post(msg) {
@@ -1993,13 +1977,12 @@ ${HIGHLIGHT_RUNTIME}
   }
 
   // ── Theme picker ─────────────────────────────────────────────────────
-  let themeBootstrap = { themes: [], hljsMap: {}, decorMap: {} };
+  let themeBootstrap = { themes: [], decorMap: {} };
   try {
     const elBt = document.getElementById('deck-themes');
     if (elBt) themeBootstrap = JSON.parse(elBt.textContent || '{}');
   } catch (e) {}
   const themeList = themeBootstrap.themes || [];
-  const hljsMap = themeBootstrap.hljsMap || {};
   const decorMap = themeBootstrap.decorMap || {};
   const THEME_DATA = Object.fromEntries(themeList.map(function (t) { return [t.id, t]; }));
   let activeTheme = document.documentElement.dataset.theme || 'maxx-mellow';
@@ -2131,13 +2114,9 @@ ${HIGHLIGHT_RUNTIME}
     activeTheme = id;
     document.documentElement.dataset.theme = id;
     document.documentElement.dataset.decor = decorMap[id] || 'orbs';
-    const hljsLink = document.getElementById('hljs-theme');
-    if (hljsLink && hljsMap[id]) {
-      hljsLink.href = hljsMap[id];
-    }
     updateThemePenColors();
     if (remember !== false) {
-      try { localStorage.setItem('deckrun.theme.v1', id); } catch (e) {}
+      try { localStorage.setItem('harbour.theme.v1', id); } catch (e) {}
     }
     if (themeCards.length) {
       themeCards.forEach(function (card) {
@@ -2196,7 +2175,7 @@ ${HIGHLIGHT_RUNTIME}
   const HELP_GROUPS = [
     { title: 'navigate', rows: [
       { keys: ['→', '↓', 'Space'],        desc: 'Next reveal or slide' },
-      { keys: ['←', '↑', 'Backspace'],    desc: 'Previous reveal or slide' },
+      { keys: ['←', '↑', 'Backspace', 'Shift+Tab'], desc: 'Previous reveal or slide' },
       { keys: ['Home'],                   desc: 'First slide' },
       { keys: ['End'],                    desc: 'Last slide' },
       { keys: ['O'],                      desc: 'Overview grid' },
@@ -2406,6 +2385,12 @@ ${HIGHLIGHT_RUNTIME}
         e.preventDefault();
         prev();
         break;
+      case 'Tab':
+        if (e.shiftKey) {
+          e.preventDefault();
+          prev();
+        }
+        break;
       case 'Home':
         e.preventDefault();
         showSlide(0, 'backward', 'start');
@@ -2570,7 +2555,7 @@ export function generateDocHtml(
 ): string {
   const theme = resolveThemeName(themeInput);
 
-  const pageTitle = title ? (title.toLowerCase().includes("deckrun") ? title : `${title} · deckrun`) : "deckrun";
+  const pageTitle = title ? (title.toLowerCase().includes("harbour") ? title : `${title} · harbour`) : "harbour";
   return `<!DOCTYPE html>
 <html lang="en" data-theme="${theme}" data-decor="${decorOf(theme)}">
 <head>
@@ -2580,7 +2565,6 @@ export function generateDocHtml(
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="${googleFontsHref(THEME_IDS.slice())}" rel="stylesheet">
-  <link rel="stylesheet" id="hljs-theme" href="${hljsHref(theme)}">
   <style>
 ${RESET_CSS}
 
@@ -2617,7 +2601,7 @@ ${PRESENTER_CSS}
       <button class="hud-btn" id="btn-help" title="Show every control (?)">? controls</button>
     </div>
     <div id="hud-right">
-      <a href="https://github.com/arpitbbhayani/deckrun" target="_blank" rel="noopener noreferrer" class="hud-brand" id="hud-brand" title="deckrun — Markdown presentations">powered by <span>deckrun</span></a>
+      <a href="https://github.com/maxxkph/harbour" target="_blank" rel="noopener noreferrer" class="hud-brand" id="hud-brand" title="harbour — Markdown presentations">powered by <span>harbour</span></a>
     </div>
   </div>
 </div>
@@ -2632,12 +2616,12 @@ ${PRESENTER_CSS}
     <div id="themes__head">
       <span class="th-head__title">themes</span>
       <span class="th-head__sub">Arrow keys preview live &nbsp;·&nbsp; enter selects &nbsp;·&nbsp; esc closes</span>
-      <a href="https://github.com/arpitbbhayani/deckrun" target="_blank" rel="noopener noreferrer" class="th-head__brand" title="deckrun">deckrun</a>
+      <a href="https://github.com/maxxkph/harbour" target="_blank" rel="noopener noreferrer" class="th-head__brand" title="harbour">harbour</a>
       <button id="themes__close" data-close="themes" title="Close (Esc)">&times;</button>
     </div>
     <div id="themes__list"></div>
     <div id="themes__foot">
-      <span class="th-foot__brand">powered by <a href="https://github.com/arpitbbhayani/deckrun" target="_blank" rel="noopener noreferrer">deckrun</a></span>
+      <span class="th-foot__brand">powered by <a href="https://github.com/maxxkph/harbour" target="_blank" rel="noopener noreferrer">harbour</a></span>
       <span class="th-foot__hint">Switch themes on the fly</span>
     </div>
   </div>
@@ -2654,7 +2638,7 @@ ${PRESENTER_CSS}
     <div id="help__grid"></div>
     <div id="help__foot">
       <span>Annotations are not saved to disk, and reset if the page reloads.</span>
-      <span>powered by <a href="https://github.com/arpitbbhayani/deckrun" target="_blank" rel="noopener noreferrer">deckrun</a></span>
+      <span>powered by <a href="https://github.com/maxxkph/harbour" target="_blank" rel="noopener noreferrer">harbour</a></span>
     </div>
   </div>
 </div>
@@ -2663,7 +2647,7 @@ ${autoFullscreen ? `<div id="fs-hint">
   <div id="fs-hint__inner">Press any key or click to enter fullscreen</div>
 </div>` : ''}
 
-<script id="deck-themes" type="application/json">${JSON.stringify({ themes: themeSummaries(), hljsMap: JSON.parse(hljsMapJson()), decorMap: JSON.parse(decorMapJson()) })}</script>
+<script id="deck-themes" type="application/json">${JSON.stringify({ themes: themeSummaries(), decorMap: JSON.parse(decorMapJson()) })}</script>
 
 <script>
 ${HIGHLIGHT_RUNTIME}
@@ -2686,8 +2670,8 @@ ${HIGHLIGHT_RUNTIME}
   // still render here, on the presenter chrome's palette. Read-only: this is
   // the presenting surface, not the editor, so selecting text here should
   // not offer to create a highlight. hl=... names whose highlights these are.
-  if (window.deckrunHighlights) {
-    window.deckrunHighlights.mount({
+  if (window.harbourHighlights) {
+    window.harbourHighlights.mount({
       frame: elFrame,
       docKey: new URLSearchParams(location.search).get('hl') || 'default',
       scopes: 'doc',
@@ -2938,13 +2922,12 @@ ${HIGHLIGHT_RUNTIME}
   }
 
   // ── Theme picker ─────────────────────────────────────────────────────
-  let themeBootstrap = { themes: [], hljsMap: {}, decorMap: {} };
+  let themeBootstrap = { themes: [], decorMap: {} };
   try {
     const elBt = document.getElementById('deck-themes');
     if (elBt) themeBootstrap = JSON.parse(elBt.textContent || '{}');
   } catch (e) {}
   const themeList = themeBootstrap.themes || [];
-  const hljsMap = themeBootstrap.hljsMap || {};
   const decorMap = themeBootstrap.decorMap || {};
   const THEME_DATA = Object.fromEntries(themeList.map(function (t) { return [t.id, t]; }));
   let activeTheme = document.documentElement.dataset.theme || 'maxx-mellow';
@@ -3076,10 +3059,6 @@ ${HIGHLIGHT_RUNTIME}
     activeTheme = id;
     document.documentElement.dataset.theme = id;
     document.documentElement.dataset.decor = decorMap[id] || 'orbs';
-    const hljsLink = document.getElementById('hljs-theme');
-    if (hljsLink && hljsMap[id]) {
-      hljsLink.href = hljsMap[id];
-    }
     try {
       if (elFrame && elFrame.contentDocument && elFrame.contentDocument.documentElement) {
         elFrame.contentDocument.documentElement.dataset.theme = id;
@@ -3092,7 +3071,7 @@ ${HIGHLIGHT_RUNTIME}
     } catch (e) {}
     updateThemePenColors();
     if (remember !== false) {
-      try { localStorage.setItem('deckrun.theme.v1', id); } catch (e) {}
+      try { localStorage.setItem('harbour.theme.v1', id); } catch (e) {}
     }
     if (themeCards.length) {
       themeCards.forEach(function (card) {

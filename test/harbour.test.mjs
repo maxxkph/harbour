@@ -24,7 +24,7 @@ import vm from "node:vm";
 
 test("Parser handles slides, notes, images, math, and reveals", () => {
   const md = `# Slide 1
-Welcome to deckrun
+Welcome to harbour
 
 <!-- notes: Introduction slide notes -->
 ---
@@ -46,7 +46,7 @@ Inline math $a^2 + b^2 = c^2$ here.
   const slides = parseSlides(md);
   assert.equal(slides.length, 2);
   assert.equal(slides[0].notes, "Introduction slide notes");
-  assert.match(slides[1].html, /deckrun-fragment-marker/);
+  assert.match(slides[1].html, /harbour-fragment-marker/);
   assert.match(slides[1].html, /class="math-source"/);
   assert.match(slides[1].html, /data-display="true"/);
   assert.match(slides[1].html, /data-display="false"/);
@@ -206,7 +206,7 @@ test("Generate editor HTML produces valid editor interface", () => {
   assert.ok(html.includes('data-theme="maxx-mellow"'));
   assert.ok(html.includes('data-template="minimal"'));
   assert.ok(html.includes('data-transition="fade"'));
-  assert.ok(html.includes("deckrun · editor"));
+  assert.ok(html.includes("harbour · editor"));
 });
 
 test("Theme and font resolvers function properly", () => {
@@ -240,13 +240,13 @@ test("Session highlights ship on every surface that renders a document", () => {
 
   // The deck reads hl=... so the tab present opens knows whose marks these are.
   const deck = generateHtml(slides, "Deck");
-  assert.ok(deck.includes("window.deckrunHighlights"));
+  assert.ok(deck.includes("window.harbourHighlights"));
   assert.ok(deck.includes("scopes: 'slides'"));
   assert.ok(deck.includes("get('hl')"));
 
   // An HTML doc is one scope, highlighted through the presenter wrapper.
   const doc = generateDocHtml("/?deck=1", "Doc");
-  assert.ok(doc.includes("window.deckrunHighlights"));
+  assert.ok(doc.includes("window.harbourHighlights"));
   assert.ok(doc.includes("scopes: 'doc'"));
 
   // The editor drives both of its previews and hands the key to present.
@@ -262,7 +262,7 @@ test("Session highlights ship on every surface that renders a document", () => {
 
 test("Highlight runtime is valid, self-installing JavaScript", () => {
   assert.doesNotThrow(() => new vm.Script(HIGHLIGHT_RUNTIME));
-  assert.ok(HIGHLIGHT_RUNTIME.includes("window.deckrunHighlights = {"));
+  assert.ok(HIGHLIGHT_RUNTIME.includes("window.harbourHighlights = {"));
   // Session storage only: nothing reaches localStorage or the server.
   assert.ok(HIGHLIGHT_RUNTIME.includes("sessionStorage"));
   assert.ok(!HIGHLIGHT_RUNTIME.includes("localStorage"));

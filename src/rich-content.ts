@@ -114,7 +114,7 @@ span.math-source {
 `;
 
 export const RICH_CONTENT_RUNTIME = `(function () {
-  window.deckrunRenderRichContent = function (root) {
+  window.harbourRenderRichContent = function (root) {
     if (!root) return Promise.resolve();
 
     // 1. Render KaTeX math

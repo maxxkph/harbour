@@ -13,7 +13,7 @@ export const FRAGMENT_CSS = `/* ── Fragments / Incremental Reveals ───
   pointer-events: all;
 }
 
-.deckrun-fragment-marker {
+.harbour-fragment-marker {
   display: none !important;
 }
 
@@ -34,9 +34,9 @@ export const FRAGMENT_CSS = `/* ── Fragments / Incremental Reveals ───
 `;
 
 export const FRAGMENT_RUNTIME = `(function () {
-  window.deckrunPrepareFragments = function (root, allVisible) {
+  window.harbourPrepareFragments = function (root, allVisible) {
     if (!root) return;
-    var markers = root.querySelectorAll('.deckrun-fragment-marker');
+    var markers = root.querySelectorAll('.harbour-fragment-marker');
     for (var i = 0; i < markers.length; i++) {
       var marker = markers[i];
       var parent = marker.parentElement;

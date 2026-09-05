@@ -1,6 +1,6 @@
 # Publishing to npm
 
-This package is published as `deckrun` on npm.
+This package is published as `harbour` on npm.
 
 ## Pre-publish checklist
 
@@ -42,7 +42,7 @@ npm publish --access public
 ## Verifying the release
 
 ```bash
-npm info deckrun
+npm info harbour
 ```
 
 Check that the `version` field and `dist-tags.latest` match what you just published.
@@ -50,7 +50,7 @@ Check that the `version` field and `dist-tags.latest` match what you just publis
 ## Running without installation
 
 ```bash
-npx deckrun slides.md
+npx harbour slides.md
 ```
 
 `npx` downloads and runs the package on the fly — no global install needed.
@@ -58,5 +58,5 @@ npx deckrun slides.md
 ## Installing the published package
 
 ```bash
-npm install -g deckrun
+npm install -g harbour
 ```

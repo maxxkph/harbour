@@ -258,7 +258,7 @@ function watchSourceFile(absPath: string): void {
       }, 150);
     });
   } catch {
-    console.error(`${c.dim}deckrun: cannot watch '${name}' for changes; live reload is off.${c.reset}`);
+    console.error(`${c.dim}harbour: cannot watch '${name}' for changes; live reload is off.${c.reset}`);
   }
 }
 
@@ -394,7 +394,7 @@ async function handleEditorRoute(
     const theme = resolveThemeName(body.theme);
     const template = resolveTemplateName(body.template);
     const transition = resolveTransitionName(body.transition);
-    const title = deckTitle(slides, body.title?.trim() || "deckrun");
+    const title = deckTitle(slides, body.title?.trim() || "harbour");
     // A deck built for printing must not open behind a fullscreen prompt.
     const forPrint = body.print === true;
     const path = stashDeck(
@@ -432,7 +432,7 @@ async function handleEditorRoute(
         JSON.stringify({
           error: "no browser",
           detail:
-            "No Chrome, Chromium, Edge, or Brave found. Set DECKRUN_BROWSER to one to export PDFs directly.",
+            "No Chrome, Chromium, Edge, or Brave found. Set HARBOUR_BROWSER to one to export PDFs directly.",
         })
       );
       return true;
@@ -441,7 +441,7 @@ async function handleEditorRoute(
     const theme = resolveThemeName(body.theme);
     const template = resolveTemplateName(body.template);
     const transition = resolveTransitionName(body.transition);
-    const title = deckTitle(slides, body.title?.trim() || "deckrun");
+    const title = deckTitle(slides, body.title?.trim() || "harbour");
     const path = stashDeck(
       generateHtml(
         slides,
@@ -496,7 +496,7 @@ async function handleEditorRoute(
       upstream = await fetch(target, {
         redirect: "follow",
         signal: AbortSignal.timeout(15_000),
-        headers: { "User-Agent": "deckrun" },
+        headers: { "User-Agent": "harbour" },
       });
     } catch (err) {
       res.writeHead(502, { "Content-Type": "application/json" });
@@ -590,7 +590,7 @@ async function handleEditorRoute(
       return true;
     }
     const theme = resolveThemeName(body.theme);
-    const title = docTitle(raw, body.title?.trim() || "deckrun");
+    const title = docTitle(raw, body.title?.trim() || "harbour");
     const forPrint = body.print === true;
     const docPath = stashDeck(raw);
     const wrapperPath = stashDeck(
@@ -619,13 +619,13 @@ async function handleEditorRoute(
         JSON.stringify({
           error: "no browser",
           detail:
-            "No Chrome, Chromium, Edge, or Brave found. Set DECKRUN_BROWSER to one to export PDFs directly.",
+            "No Chrome, Chromium, Edge, or Brave found. Set HARBOUR_BROWSER to one to export PDFs directly.",
         })
       );
       return true;
     }
 
-    const title = docTitle(raw, body.title?.trim() || "deckrun");
+    const title = docTitle(raw, body.title?.trim() || "harbour");
     // Print the raw doc directly, with no chrome wrapper: its own @page /
     // print CSS (or Chrome's defaults) governs pagination, and there is no
     // presenter chrome to strip since there is none in the printed page.
@@ -736,7 +736,7 @@ async function serve(mode: Mode, baseDir: string, port: number): Promise<string>
 const program = new Command();
 
 program
-  .name("deckrun")
+  .name("harbour")
   .description(
     "Open a Markdown file, HTML file, or public URL in the built-in editor, and present from there. Run without an argument for a blank editor."
   )
@@ -794,21 +794,21 @@ program
       const named = findTheme(opts.theme);
       if (!named) {
         console.error(
-          `deckrun: unknown theme '${opts.theme}'. Run --list-themes to see them all.`
+          `harbour: unknown theme '${opts.theme}'. Run --list-themes to see them all.`
         );
         process.exit(1);
       }
       const templated = findTemplate(opts.template);
       if (!templated) {
         console.error(
-          `deckrun: unknown template '${opts.template}'. Run --list-templates to see them all.`
+          `harbour: unknown template '${opts.template}'. Run --list-templates to see them all.`
         );
         process.exit(1);
       }
       const transitioned = findTransition(opts.transition);
       if (!transitioned) {
         console.error(
-          `deckrun: unknown transition '${opts.transition}'. Run --list-transitions to see them all.`
+          `harbour: unknown transition '${opts.transition}'. Run --list-transitions to see them all.`
         );
         process.exit(1);
       }
@@ -823,7 +823,7 @@ program
         const face = findFont(raw);
         if (!face) {
           console.error(
-            `deckrun: unknown font '${raw}' for ${flag}. Run --list-fonts to see them all.`
+            `harbour: unknown font '${raw}' for ${flag}. Run --list-fonts to see them all.`
           );
           process.exit(1);
         }
@@ -844,7 +844,7 @@ program
           try {
             target = new URL(file);
           } catch {
-            console.error(`deckrun: invalid URL '${file}'`);
+            console.error(`harbour: invalid URL '${file}'`);
             process.exit(1);
           }
 
@@ -853,23 +853,23 @@ program
             upstream = await fetch(target, {
               redirect: "follow",
               signal: AbortSignal.timeout(15_000),
-              headers: { "User-Agent": "deckrun" },
+              headers: { "User-Agent": "harbour" },
             });
           } catch (err) {
             console.error(
-              `deckrun: cannot fetch '${file}': ${err instanceof Error ? err.message : "network error"}`
+              `harbour: cannot fetch '${file}': ${err instanceof Error ? err.message : "network error"}`
             );
             process.exit(1);
           }
 
           if (!upstream.ok) {
-            console.error(`deckrun: fetch failed for '${file}' (HTTP ${upstream.status})`);
+            console.error(`harbour: fetch failed for '${file}' (HTTP ${upstream.status})`);
             process.exit(1);
           }
 
           const rawContent = await upstream.text();
           if (!rawContent.trim()) {
-            console.error(`deckrun: empty document fetched from '${file}'`);
+            console.error(`harbour: empty document fetched from '${file}'`);
             process.exit(1);
           }
 
@@ -942,7 +942,7 @@ program
           try {
             raw = readFileSync(absPath, "utf-8");
           } catch {
-            console.error(`deckrun: cannot read file '${file}'`);
+            console.error(`harbour: cannot read file '${file}'`);
             process.exit(1);
           }
 
@@ -1014,14 +1014,14 @@ program
   .action(
     (files: string[], opts: { format: string; maxWarnings: string }) => {
       if (opts.format !== "stylish" && opts.format !== "json") {
-        console.error("deckrun lint: --format must be 'stylish' or 'json'.");
+        console.error("harbour lint: --format must be 'stylish' or 'json'.");
         process.exitCode = 2;
         return;
       }
 
       const maxWarnings = Number.parseInt(opts.maxWarnings, 10);
       if (!Number.isInteger(maxWarnings) || maxWarnings < -1) {
-        console.error("deckrun lint: --max-warnings must be -1 or a non-negative integer.");
+        console.error("harbour lint: --max-warnings must be -1 or a non-negative integer.");
         process.exitCode = 2;
         return;
       }

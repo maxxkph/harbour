@@ -413,11 +413,11 @@ export const TIPS: string[] = [
   "A fenced mermaid block becomes a diagram in the preview, presentation, and PDF.",
   "Templates change composition without touching your Markdown; transitions are independent.",
   "Add {reveal} to a bullet or put it before a block to step through a slide one idea at a time.",
-  "Run deckrun lint slides.md before presenting or in CI to catch common authoring mistakes.",
+  "Run harbour lint slides.md before presenting or in CI to catch common authoring mistakes.",
 ];
 
 /** Deck loaded on a first visit. Doubles as the feature tour. */
-export const WELCOME_DECK = `# deckrun
+export const WELCOME_DECK = `# harbour
 
 ### Write slides in Markdown, present in the browser
 
@@ -504,7 +504,7 @@ An image path resolves against the folder you launched in. Add a directive to th
 ![Cover](cover.png "bg opacity:0.25")
 \`\`\`
 
-<!-- notes: Launch deckrun in the folder holding your diagrams and the paths just work. -->
+<!-- notes: Launch harbour in the folder holding your diagrams and the paths just work. -->
 
 ---
 
