@@ -1,5 +1,7 @@
 # harbour
 
+> This is a personal fork of [deckrun](https://github.com/arpitbbhayani/deckrun), retuned to my own taste — a single Maxx Mellow theme, a trimmed set of fonts/templates/transitions, and a flat, borderless UI. Credit to the original for the project this is built on.
+
 Write slides in Markdown or bring a self-contained HTML document, run a local server, and present either in the browser.
 
 - **Two formats** - Markdown decks with slide-by-slide presentation, or self-contained HTML documents with continuous scrolling
@@ -178,8 +180,8 @@ Run `harbour` with no file and it serves an editor instead of a deck. A deck alr
 
 ```bash
 harbour
-harbour --theme paper            # start the editor in a given look
-harbour --head-font syne         # and a face of your own
+harbour --theme maxx-mellow-dawn # start the editor in a given look
+harbour --head-font fraunces     # and a face of your own
 harbour -p 3000            # editor on another port
 ```
 
@@ -385,17 +387,19 @@ Each element is styled for projection rather than reading:
 
 | Element         | Treatment                                                          |
 | --------------- | ------------------------------------------------------------------ |
-| `h1`            | Largest, mauve, intended for section and title slides              |
-| `h2`            | Blue, the default slide title                                      |
-| `h3`            | Sky blue subheading                                                |
-| `h4`            | Teal, smallest heading                                             |
-| Bold            | Peach, for the single term that must land                          |
-| Italic          | Muted subtext, for asides                                          |
-| Inline code     | Green on a bordered surface chip                                   |
-| List markers    | Mauve bullets and numbers                                          |
-| Tables          | Lavender headers, mauve underline, zebra-striped rows              |
-| Blockquotes     | Mauve left rule on a tinted background                             |
-| Links           | Blue with an offset underline                                      |
+| `h1`            | Largest, in the theme's `accent` color, for section and title slides |
+| `h2`            | `accent-2`, the default slide title                                |
+| `h3`            | `accent-3` subheading                                              |
+| `h4`            | Muted, uppercase, letter-spaced label                              |
+| Bold            | Ink-colored, with a tinted underline band instead of a second color |
+| Italic          | `accent-3`, for asides                                             |
+| Inline code     | `accent-3` on a tinted surface chip                                |
+| List markers    | `accent`-colored bullets and numbers; nested bullets pick up `accent-3` |
+| Tables          | `accent`-colored uppercase headers, zebra-striped rows             |
+| Blockquotes     | Tinted panel with an `accent-line` quote mark                      |
+| Links           | `accent-2`, `accent` on hover, with an offset underline            |
+
+In Maxx Mellow, `accent` is lavender, `accent-2` is blue, and `accent-3` is teal — see [Writing your own theme](#writing-your-own-theme) for how a different theme repoints them.
 
 Font sizes use `clamp()` against the viewport, so the same deck reads correctly on a laptop and on a projector without changes. Content that overflows a slide is clipped rather than scrolled, which is a deliberate nudge to split the slide.
 
@@ -517,10 +521,10 @@ Press <kbd>Cmd</kbd> <kbd>K</kbd> to open the palette, and latency drops to <mar
 
 | Element    | Treatment                                                                    |
 | ---------- | ---------------------------------------------------------------------------- |
-| `iframe`   | Forced to full width at a 16:9 ratio, bordered and rounded                    |
+| `iframe`   | Forced to full width at a 16:9 ratio, rounded corners                        |
 | `video`    | Centered, capped at 60% of the slide height, aspect ratio preserved            |
-| `kbd`      | Rendered as a physical key cap in lavender                                     |
-| `mark`     | Yellow underline on a tinted background                                        |
+| `kbd`      | Rendered as a physical key cap, ink-colored on a tinted surface                |
+| `mark`     | Accent-colored text on a tinted background, with an inset accent underline    |
 
 Local videos are served from the folder you launched in, so `demo.mp4` next to your Markdown just works. Embeds need network access at presentation time, and they do not survive a PDF export.
 
@@ -725,7 +729,7 @@ built deck, so overriding a single value in a fork stays a one-line change.
 | Key                                  | Action                                   |
 | ------------------------------------ | ---------------------------------------- |
 | `Right`, `Down`, `Space`, `PageDown` | Advance to the next reveal or slide       |
-| `Left`, `Up`, `Backspace`, `PageUp`  | Return to the previous reveal or slide    |
+| `Left`, `Up`, `Backspace`, `PageUp`, `Shift+Tab` | Return to the previous reveal or slide |
 | `Home`                               | Jump to the first slide                   |
 | `End`                                | Jump to the last slide                    |
 | `O`                                  | Toggle the overview grid                  |
@@ -1012,8 +1016,10 @@ The source:
 - `src/fragments.ts` contains incremental-reveal styles and DOM preparation shared by preview and presentation
 - `src/lint.ts` implements the static deck authoring rules behind `harbour lint`
 - `src/rich-content.ts` detects and renders KaTeX and Mermaid content, with a shared readiness signal
+- `src/pdf.ts` drives a headless, already-installed Chromium browser to render PDFs without a print dialog
 - `src/generate.ts` holds the slide CSS, the presenter chrome, and the deck runtime
 - `src/preview.ts` is the editor's preview iframe, sharing the slide CSS with the deck
+- `src/highlights.ts` is the session-only text-highlight and comment runtime, shared by the preview and every presented surface
 - `src/editor.ts` is the editor page: highlighting, palette, guide, nudges, autosave
 - `src/editor-content.ts` is the snippet registry, tips, and welcome deck that the guide, the palette, and the nudges all read from
 
